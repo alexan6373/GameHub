@@ -77,25 +77,20 @@ void FifteenPuzzle::displayBoard() {
 }
 
 void FifteenPuzzle::setUpBoard() {
-    std::random_device rd;
-    std::mt19937 mt(rd());
-    
-    // Shuffles numbers for insertion into board
-    int numbers[15];
-    for (int i = 0; i < 15; i++)
-        numbers[i] = i + 1;
-    
     emptySquare = {3, 3};
     
-    int index = 0;
+    int num = 1;
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {
             if (i != emptySquare.first || j != emptySquare.second) {
-                board[i][j] = numbers[index];
-                index++;
+                board[i][j] = num;
+                num++;
             }
         }
     }
+    
+    std::random_device rd;
+    std::mt19937 mt(rd());
     
     for (int i = 0; i < 1000; i++) {
         int move = mt() % 4;
@@ -109,11 +104,11 @@ void FifteenPuzzle::setUpBoard() {
     
 // Constructor
 FifteenPuzzle::FifteenPuzzle():
-    board{{0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0},
-        {0, 0, 0, 0}},
-    emptySquare{0, 0} {
+    board{{1, 2, 3, 4},
+        {5, 6, 7, 8},
+        {9, 10, 11, 12},
+        {13, 14, 15, 0}},
+    emptySquare{3, 3} {
 }
 
 // Main game functions
@@ -124,8 +119,17 @@ void FifteenPuzzle::runFifteenPuzzleGame() {
         displayBoard();
         
         if (isGameOver()) {
-            std::cout << "You have won. Congratulations." << std::endl;
-            break;
+            std::cout << "You have won. Congratulations.\n" << std::endl;
+            std::cout << "Play again? y/n: ";
+            std::string choice;
+            std::getline(std::cin, choice);
+            if (choice == "y") {
+                setUpBoard();
+                displayBoard();
+            } else {
+                std::cout << "Thanks for playing 15 Puzzle." << std::endl;
+                break;
+            }
         }
         
         std::string move = "";

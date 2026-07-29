@@ -1,6 +1,7 @@
 #include <iostream>
 #include "FifteenPuzzle/FifteenPuzzle.h"
 #include "PenguinPalooza/PenguinPalooza.h"
+#include "Hangman/Hangman.h"
 
 int main() {
     std::cout << R"(-----------------------------------------------------------------------------
@@ -32,8 +33,8 @@ int main() {
 
   Two Player
   ----------
-    [4] Tic Tac Toe
-    [5] Chorus Lapilli
+    [5] Tic Tac Toe
+    [6] Chorus Lapilli
 
   Other
   ----------
@@ -57,6 +58,13 @@ Enter your choice: )";
             std::cout << "=============================\n";
             FifteenPuzzle fp;
             fp.runFifteenPuzzleGame();
+            
+        } else if (choice == 2) {
+            std::cout << "===========================\n";
+            std::cout << "Starting a game of Hangman.\n";
+            std::cout << "===========================\n";
+            Hangman hangman;
+            hangman.runHangmanGame();
             
         } else if (choice == 3) {
             std::cout << "===================================\n";
