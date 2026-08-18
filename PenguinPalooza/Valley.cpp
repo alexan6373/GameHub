@@ -1,7 +1,7 @@
-#include "Valley.h"
-#include "Penguin.h"
-#include "Player.h"
-#include "Helper.h"
+#include "Valley.hpp"
+#include "Penguin.hpp"
+#include "Player.hpp"
+#include "Helper.hpp"
 
 #include <iostream>
 #include <string>

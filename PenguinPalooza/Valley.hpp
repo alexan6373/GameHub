@@ -1,7 +1,7 @@
 #ifndef VALLEY_H
 #define VALLEY_H
 
-#include "Helper.h"
+#include "Helper.hpp"
 #include <string>
 
 class Player;

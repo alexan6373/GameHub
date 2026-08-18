@@ -1,7 +1,7 @@
 #include <iostream>
 #include <random>
 #include <string>
-#include "FifteenPuzzle.h"
+#include "FifteenPuzzle.hpp"
 
 // Helper functions
 void FifteenPuzzle::makeMove(std::string move) {

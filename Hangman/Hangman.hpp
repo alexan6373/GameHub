@@ -6,8 +6,7 @@
 class Hangman {
 private:
     std::string secretWord;
-    std::vector<char> currentGuess;
-    
+    std::vector<char> runningGuess;
     std::vector<int> alreadyUsedLetters;
     std::vector<std::string> wordBank = {
         "apple", "banana", "computer", "hangman", "elephant",
@@ -22,7 +21,7 @@ private:
     void displayBoard();
     bool isValidGuess(char guess);
     bool guessIsCorrect(char guess);
-    bool isGameOver();
+    bool didPlayerWin();
 
 public:
     Hangman();

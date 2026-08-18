@@ -1,6 +1,6 @@
-#include "Player.h"
-#include "Valley.h"
-#include "Helper.h"
+#include "Player.hpp"
+#include "Valley.hpp"
+#include "Helper.hpp"
 
 #include <iostream>
 #include <string>

@@ -1,5 +1,5 @@
-#include "Helper.h"
-#include "Valley.h"
+#include "Helper.hpp"
+#include "Valley.hpp"
 
 #include <iostream>
 #include <string>

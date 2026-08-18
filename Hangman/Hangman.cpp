@@ -1,30 +1,30 @@
 #include <iostream>
 #include <random>
 #include <string>
-#include "Hangman.h"
+#include "Hangman.hpp"
 
 //    Helper functions
 void Hangman::updateBoard(char guess) {
     for (int i = 0; i < secretWord.size(); i++) {
         if (secretWord[i] == guess)
-            currentGuess[i] = guess;
+            runningGuess[i] = guess;
     }
 }
  
 void Hangman::displayBoard() {
     for (int i = 0; i < secretWord.size(); i++)
-        std::cout << toupper(currentGuess[i]) << " ";
+        std::cout << toupper(runningGuess[i]) << " ";
     
     std::cout << std::endl;
     
     std::cout << "You have " << guessLeft << " guess(es) left.\n";
-    std::cout << "You have already guessed:\n";
+    std::cout << "You have already guessed: ";
     
     for (int i = 0; i < 26; i++)
         if (alreadyUsedLetters[i] == 1)
             std::cout << (char) ('A' + i) << " ";
     
-    std::cout << std::endl << std::endl;
+    std::cout << "\n\n";
 }
 
 bool Hangman::isValidGuess(char guess) {
@@ -32,9 +32,9 @@ bool Hangman::isValidGuess(char guess) {
             alreadyUsedLetters[tolower(guess) - 'a'] == 0);
 }
 
-bool Hangman::isGameOver() {
-    for (int i = 0; i < currentGuess.size(); i++) {
-        if (currentGuess[i] == '_')
+bool Hangman::didPlayerWin() {
+    for (int i = 0; i < runningGuess.size(); i++) {
+        if (runningGuess[i] == '_')
             return false;
     }
     return true;
@@ -56,7 +56,7 @@ Hangman::Hangman() : alreadyUsedLetters(26, 0), guessLeft(6) {
     
     secretWord = wordBank[mt() % wordBank.size()];
     for (int i = 0; i < secretWord.size(); i++)
-        currentGuess.push_back('_');
+        runningGuess.push_back('_');
 }
 
 
@@ -69,6 +69,7 @@ void Hangman::runHangmanGame() {
             std::cout << "The word was " << secretWord << "." << std::endl;
             break;
         }
+        
         char guess = 0;
         std::cout << "Guess a letter: ";
         std::cin >> guess;
@@ -86,7 +87,7 @@ void Hangman::runHangmanGame() {
             std::cout << "Invalid guess or you already guessed that letter.\n\n";
         }
         
-        if (isGameOver()) {
+        if (didPlayerWin()) {
             std::cout << "Congratulations, you won. Thanks for playing Hangman.\n";
             break;
         }

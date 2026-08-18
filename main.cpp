@@ -1,7 +1,8 @@
 #include <iostream>
-#include "FifteenPuzzle/FifteenPuzzle.h"
-#include "PenguinPalooza/PenguinPalooza.h"
-#include "Hangman/Hangman.h"
+#include "FifteenPuzzle/FifteenPuzzle.hpp"
+#include "PenguinPalooza/PenguinPalooza.hpp"
+#include "Hangman/Hangman.hpp"
+#include "TicTacToe/TicTacToe.hpp"
 
 int main() {
     std::cout << R"(-----------------------------------------------------------------------------
@@ -33,13 +34,12 @@ int main() {
 
   Two Player
   ----------
-    [5] Tic Tac Toe
-    [6] Chorus Lapilli
+    [4] Tic Tac Toe
+    [5] Chorus Lapilli
 
   Other
   ----------
-    [i] Game instructions
-    [q] Quit
+    [0] Quit
 
 ==================================================
 
@@ -70,8 +70,14 @@ Enter your choice: )";
             std::cout << "===================================\n";
             std::cout << "Starting a game of Penguin Palooza.\n";
             std::cout << "===================================\n";
-            runPenguinGame();\
+            runPenguinGame();
             
+        } else if (choice == 4) {
+            std::cout << "=============================\n";
+            std::cout << "Starting a game of TicTacToe.\n";
+            std::cout << "=============================\n";
+            TicTacToe tictactoe;
+            tictactoe.runTicTacToe();
         } else {
             std::cout << "The feature is either not available or currently being developed\n";
         }

@@ -1,9 +1,5 @@
-#include "PenguinPalooza.h"
-//#include "Penguin.h"
-#include "Game.h"
-//#include "Player.h"
-//#include "Valley.h"
-//#include "Helper.h"
+#include "PenguinPalooza.hpp"
+#include "Game.hpp"
 
 void runPenguinGame() {
 //    Create a Game object and start the game

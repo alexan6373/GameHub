@@ -1,6 +1,6 @@
-#include "Penguin.h"
-#include "Valley.h"
-#include "Helper.h"
+#include "Penguin.hpp"
+#include "Valley.hpp"
+#include "Helper.hpp"
 
 #include <iostream>
 #include <string>
