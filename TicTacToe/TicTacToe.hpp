@@ -14,6 +14,9 @@ private:
 public:
     TicTacToe();
     void runTicTacToe();
+    
+    void draw(sf::RenderWindow& window);
+    bool isGameOver();
 };
 
 #endif

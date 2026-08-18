@@ -1,8 +1,11 @@
 //    playerToMove
 //    char board[3][3]
 
-#include "TicTacToe.hpp"
 #include <iostream>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+
+#include "TicTacToe.hpp"
 
 void TicTacToe::updateBoard(int move) {
     board[move / 3][move % 3] = playerToMove;
@@ -100,5 +103,25 @@ void TicTacToe::runTicTacToe() {
         }
         
         playerToMove = playerToMove == 'X' ? 'O' : 'X';
+    }
+}
+
+void TicTacToe::draw(sf::RenderWindow& window) {
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    
+    sf::Text title(font, "TIC TAC TOE", 80);
+    sf::FloatRect bounds = title.getLocalBounds();
+    title.setOrigin({ bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f });
+    title.setPosition({  window.getSize().x / 2.f, 50 });
+
+    while (window.isOpen()) {
+        while (const std::optional event = window.pollEvent()) {
+            if (event->is<sf::Event::Closed>())
+                window.close();
+        }
+
+        window.clear();
+        window.draw(title);
+        window.display();
     }
 }
