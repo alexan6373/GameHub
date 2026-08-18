@@ -5,6 +5,7 @@ class TicTacToe {
 private:
     char playerToMove;
     char board[3][3];
+    bool gameOver;
     
     void updateBoard(int move);
     void displayBoard();
@@ -15,7 +16,7 @@ public:
     TicTacToe();
     void runTicTacToe();
     
-    void draw(sf::RenderWindow& window);
+    bool draw(sf::RenderWindow& window);
     bool isGameOver();
 };
 

@@ -106,15 +106,31 @@ void TicTacToe::runTicTacToe() {
     }
 }
 
-void TicTacToe::draw(sf::RenderWindow& window) {
+bool TicTacToe::draw(sf::RenderWindow& window) {
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     
     sf::Text title(font, "TIC TAC TOE", 80);
-    sf::FloatRect bounds = title.getLocalBounds();
-    title.setOrigin({ bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f });
+    sf::FloatRect titleBounds = title.getLocalBounds();
+    title.setOrigin({ titleBounds.position.x + titleBounds.size.x / 2.f, titleBounds.position.y + titleBounds.size.y / 2.f });
     title.setPosition({window.getSize().x / 2.f, 50});
     
+    sf::RectangleShape menuButton({100.f, 50.f});
+    menuButton.setPosition({window.getSize().x / 2.f - 150.f, 300.f});
+    menuButton.setFillColor(sf::Color::Transparent);
+    menuButton.setOutlineColor(sf::Color::White);
+    menuButton.setOutlineThickness(3.f);
+    
+    sf::Text menu(font, "Return to main menu", 40);
+    sf::FloatRect menuBounds = menu.getLocalBounds();
+    title.setOrigin({ menuBounds.position.x + menuBounds.size.x / 2.f, menuBounds.position.y + menuBounds.size.y / 2.f });
+    title.setPosition({window.getSize().x / 2.f, 120});
+    
     int move;
+    for (int row = 0; row < 3; row++) {
+        for (int col = 0; col < 3; col++) {
+            board[row][col] = ' ';
+        }
+    }
     
     const float boardSize = 570.f;
     const float cellSize = 190.f;
@@ -123,18 +139,26 @@ void TicTacToe::draw(sf::RenderWindow& window) {
     float startY = window.getSize().y / 2.f - boardSize / 2.f;
 
     while (window.isOpen()) {
+//        if (gameOver) {
+//            
+//        }
+        
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
         
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
-                    int mouseX = static_cast<float>(mouseButtonPressed->position.x);
-                    int mouseY = static_cast<float>(mouseButtonPressed->position.y);
+                    float mouseX = static_cast<float>(mouseButtonPressed->position.x);
+                    float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                     
+                    if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
+                        gameOver = false;
+                        return true;
+                    }
                     
-                    if (startX >= startX && startX < startX + boardSize &&
-                        startY >= startY && mouseY < startY + boardSize) {
+                    if (mouseX >= startX && mouseX < startX + boardSize &&
+                        mouseY >= startY && mouseY < startY + boardSize) {
                         
                         move = 3 * (int) ((mouseY - startY) / cellSize) + (int) ((mouseX - startX) / cellSize);
                         
@@ -145,9 +169,11 @@ void TicTacToe::draw(sf::RenderWindow& window) {
                             updateBoard(move);
                             if (isWinner(playerToMove)) {
                                 std::cout << "The game is over. Player " << playerToMove << " won." << std::endl;
+                                gameOver = true;
                                 break;
                             } else if (isBoardFull()) {
                                 std::cout << "The game is a draw." << std::endl;
+                                gameOver = true;
                                 break;
                             }
                             
@@ -160,6 +186,8 @@ void TicTacToe::draw(sf::RenderWindow& window) {
 
         window.clear();
         window.draw(title);
+        window.draw(menu);
+        window.draw(menuButton);
         
         for (int i = 0; i < 4; i++) {
             sf::RectangleShape line({5.f, boardSize});
@@ -179,14 +207,14 @@ void TicTacToe::draw(sf::RenderWindow& window) {
                     sf::Text xTile(font, "X", 150);
                     sf::FloatRect bounds = xTile.getLocalBounds();
                     xTile.setOrigin({bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f});
-                    xTile.setPosition({startX + cellSize / 2 + row * cellSize, startY + cellSize / 2 + col * cellSize});
+                    xTile.setPosition({startX + cellSize / 2 + col * cellSize, startY + cellSize / 2 + row * cellSize});
                     window.draw(xTile);
                     
                 } else if (board[row][col] == 'O') {
                     sf::Text oTile(font, "O", 150);
                     sf::FloatRect bounds = oTile.getLocalBounds();
                     oTile.setOrigin({bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f});
-                    oTile.setPosition({startX + cellSize / 2 + row * cellSize, startY + cellSize / 2 + col * cellSize});
+                    oTile.setPosition({startX + cellSize / 2 + col * cellSize, startY + cellSize / 2 + row * cellSize});
                     window.draw(oTile);
                 }
             }
@@ -194,4 +222,7 @@ void TicTacToe::draw(sf::RenderWindow& window) {
         
         window.display();
     }
+    
+    gameOver = false;
+    return true;
 }

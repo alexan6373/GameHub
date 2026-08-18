@@ -64,7 +64,8 @@ int main() {
             window.draw(ticTacToeButton);
             window.draw(ticTacToeText);
         } else {
-            ticTacToe.draw(window);
+            if (ticTacToe.draw(window))
+                currentScreen = Screen::MainMenu;
         }
         
         window.display();
