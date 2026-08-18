@@ -50,7 +50,7 @@ Enter your choice: )";
         std::cout << std::endl;
         
         if (choice == 0) {
-            std::cout << "Thanks for playing.\n";
+            std::cout << "Thanks for playing!!!!!!\n";
             break;
         } else if (choice == 1) {
             std::cout << "=============================\n";
