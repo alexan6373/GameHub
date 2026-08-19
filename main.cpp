@@ -40,6 +40,7 @@ int main() {
 
     // Game objects
     TicTacToe ticTacToe;
+    FifteenPuzzle fifteenPuzzle;
     
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -53,7 +54,9 @@ int main() {
                         static_cast<float>(mouseButtonPressed->position.y)
                     );
                     
-                    if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
+                    if (fifteenPuzzleButton.getGlobalBounds().contains(mousePosition)) {
+                        currentScreen = Screen::FifteenPuzzle;
+                    } else if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
                         currentScreen = Screen::TicTacToe;
                     }
                 }
@@ -72,7 +75,12 @@ int main() {
             window.draw(penguinText);
             window.draw(ticTacToeButton);
             window.draw(ticTacToeText);
-        } else {
+            
+        } else if (currentScreen == Screen::FifteenPuzzle) {
+            if (fifteenPuzzle.draw(window))
+                currentScreen = Screen::MainMenu;
+            
+        } else if (currentScreen == Screen::TicTacToe) {
             if (ticTacToe.draw(window))
                 currentScreen = Screen::MainMenu;
         }

@@ -1,6 +1,4 @@
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 
 #include "TicTacToe.hpp"
 #include "GraphicsHelper.hpp"
@@ -105,18 +103,16 @@ void TicTacToe::runTicTacToe() {
 }
 
 bool TicTacToe::draw(sf::RenderWindow& window) {
+    gameOver = false;
+    
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     
-    sf::Text title = createText(font, "TIC TAC TOE", 80.f,
-                               window.getSize().x / 2.f, 50);
+    sf::Text title = createText(font, "TIC TAC TOE", 80.f, window.getSize().x / 2.f, 50);
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
-
-    sf::Text menuText = createText(font, "Return to main menu", 20.f,
-                                  window.getSize().x / 2.f, 140.f);
+    sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);
     
-    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f,
-                                   window.getSize().x / 2.f, 850.f);
+    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f, window.getSize().x / 2.f, 850.f);
     
     int move;
     playerToMove = 'X';
@@ -198,13 +194,15 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
                 if (board[row][col] == 'X') {
                     sf::Text xTile = createText(font, "X", 150.f,
                                                 startX + cellSize / 2 + col * cellSize,
-                                                startY + cellSize / 2 + row * cellSize);
+                                                startY + cellSize / 2 + row * cellSize,
+                                                sf::Color::Blue);
                     window.draw(xTile);
                     
                 } else if (board[row][col] == 'O') {
                     sf::Text oTile = createText(font, "O", 150.f,
                                                 startX + cellSize / 2 + col * cellSize,
-                                                startY + cellSize / 2 + row * cellSize);
+                                                startY + cellSize / 2 + row * cellSize,
+                                                sf::Color::Red);
                     window.draw(oTile);
                 }
             }
