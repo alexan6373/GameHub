@@ -9,21 +9,34 @@
 #include "GraphicsHelper.hpp"
 
 int main() {
+    enum class Screen {
+        MainMenu,
+        FifteenPuzzle,
+        Hangman,
+        PenguinPalooza,
+        TicTacToe,
+        ChorusLapilli,
+    };
+    Screen currentScreen = Screen::MainMenu;
+    
     // Window creation
     sf::RenderWindow window(sf::VideoMode({1200, 1000}), "GameHub", sf::Style::Default);
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     
-    enum class Screen {
-        MainMenu,
-        TicTacToe,
-    };
-    Screen currentScreen = Screen::MainMenu;
-    
     // Text and buttons
     sf::Text title = createText(font, "The Game Hub", 80.f, window.getSize().x / 2.f, 50.f);
     
-    sf::RectangleShape ticTacToeButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 300.f}, 3.f);
-    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", 30.f, window.getSize().x / 2.f, 340.f);
+    sf::RectangleShape fifteenPuzzleButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 300.f}, 3.f);
+    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", 30.f, window.getSize().x / 2.f, 340.f);
+    
+    sf::RectangleShape hangmanButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 400.f}, 3.f);
+    sf::Text hangmanText = createText(font, "Hangman", 30.f, window.getSize().x / 2.f, 440.f);
+    
+    sf::RectangleShape penguinButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 500.f}, 3.f);
+    sf::Text penguinText = createText(font, "Penguin Palooza", 30.f, window.getSize().x / 2.f, 540.f);
+    
+    sf::RectangleShape ticTacToeButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 600.f}, 3.f);
+    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", 30.f, window.getSize().x / 2.f, 640.f);
 
     // Game objects
     TicTacToe ticTacToe;
@@ -50,7 +63,13 @@ int main() {
         window.clear(sf::Color(210, 180, 140));
         
         if (currentScreen == Screen::MainMenu) {
-            window.draw(title);
+            window.draw(title);            
+            window.draw(fifteenPuzzleButton);
+            window.draw(fifteenPuzzleText);
+            window.draw(hangmanButton);
+            window.draw(hangmanText);
+            window.draw(penguinButton);
+            window.draw(penguinText);
             window.draw(ticTacToeButton);
             window.draw(ticTacToeText);
         } else {
