@@ -6,6 +6,7 @@
 #include "PenguinPalooza/PenguinPalooza.hpp"
 #include "Hangman/Hangman.hpp"
 #include "TicTacToe/TicTacToe.hpp"
+#include "GraphicsHelper.hpp"
 
 int main() {
     // Window creation
@@ -18,22 +19,11 @@ int main() {
     };
     Screen currentScreen = Screen::MainMenu;
     
-    // Main menu objects
-    sf::Text title(font, "The Game Hub", 80);
-    sf::FloatRect bounds = title.getLocalBounds();
-    title.setOrigin({bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f});
-    title.setPosition({window.getSize().x / 2.f, 50});
+    // Text and buttons
+    sf::Text title = createText(font, "The Game Hub", 80.f, window.getSize().x / 2.f, 50.f);
     
-    sf::RectangleShape ticTacToeButton({300.f, 80.f});
-    ticTacToeButton.setPosition({window.getSize().x / 2.f - 150.f, 300.f});
-    ticTacToeButton.setFillColor(sf::Color::Transparent);
-    ticTacToeButton.setOutlineColor(sf::Color::White);
-    ticTacToeButton.setOutlineThickness(3.f);
-
-    sf::Text ticTacToeText(font, "Tic Tac Toe", 30.f);
-    sf::FloatRect textBounds = ticTacToeText.getLocalBounds();
-    ticTacToeText.setOrigin({ textBounds.position.x + textBounds.size.x / 2.f, textBounds.position.y + textBounds.size.y / 2.f});
-    ticTacToeText.setPosition({window.getSize().x / 2.f, 340.f});
+    sf::RectangleShape ticTacToeButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 300.f}, 3.f);
+    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", 30.f, window.getSize().x / 2.f, 340.f);
 
     // Game objects
     TicTacToe ticTacToe;
@@ -57,7 +47,7 @@ int main() {
             }
         }
         
-        window.clear();
+        window.clear(sf::Color(210, 180, 140));
         
         if (currentScreen == Screen::MainMenu) {
             window.draw(title);
@@ -70,19 +60,9 @@ int main() {
         
         window.display();
     }
+    return 0;
+}
     
-//    std::cout << R"(-----------------------------------------------------------------------------
-//
-// _______ _   _ ______    _____          __  __ ______    _    _ _    _ ____  
-//|__   __| | | |  ____|  / ____|   /\   |  \/  |  ____|  | |  | | |  | |  _ \ 
-//   | |  | |_| | |__    | |  __   /  \  | \  / | |__     | |__| | |  | | |_) |
-//   | |  |  _  |  __|   | | |_ | / /\ \ | |\/| |  __|    |  __  | |  | |  _ < 
-//   | |  | | | | |____  | |__| |/ ____ \| |  | | |____   | |  | | |__| | |_) |
-//   |_|  |_| |_|______|  \_____/_/    \_\_|  |_|______|  |_|  |_|\____/|____/
-//
-//-----------------------------------------------------------------------------
-//    )";
-//    
 //    std::cout << "\nWelcome to the GameHub, with many classic games from 15 Puzzle to Hangman to Tic Tac Toe.\n";
 //    int choice = 0;
     
@@ -148,6 +128,3 @@ int main() {
 //            std::cout << "The feature is either not available or currently being developed\n";
 //        }
 //    }
-    
-    return 0;
-}
