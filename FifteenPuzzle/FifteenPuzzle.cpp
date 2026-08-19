@@ -202,13 +202,11 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                 else if (!gameOver && (keyPressed->scancode == sf::Keyboard::Scancode::D ||
                                        keyPressed->scancode == sf::Keyboard::Scancode::Right))
                     move = "d";
-                
-//                if (gameOver)
-//                    continue;
+            
                 
                 if (!gameOver && !isValidMove(move)) {
                     infoText.setString("Invalid move.");
-                } else {
+                } else if (!gameOver && isValidMove(move)) {
                     makeMove(move);
                     infoText.setString("Use WASD or arrow keys to make moves.");
                     
@@ -238,11 +236,17 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
         
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
-                std::string cellStr = std::to_string(board[row][col]);
+                int cellVal = board[row][col];
                 if (board[row][col] != 0) {
-                    sf::Text tile = createText(font, cellStr, 120.f,
+                    sf::Text tile = createText(font, std::to_string(cellVal), 120.f,
                                                startX + cellSize / 2 + col * cellSize,
                                                startY + cellSize / 2 + row * cellSize);
+                    
+                    if (cellVal == 4 * row + col + 1)
+                        tile.setFillColor(sf::Color::Green);
+                    else
+                        tile.setFillColor(sf::Color::Blue);
+                    
                     window.draw(tile);
                     
                 }
@@ -257,6 +261,5 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
         window.display();
     }
     
-//    gameOver = false;
     return true;
 }
