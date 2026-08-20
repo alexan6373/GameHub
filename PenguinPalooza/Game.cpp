@@ -172,14 +172,16 @@ bool Game::draw(sf::RenderWindow& window) {
     
     sf::Text penguinCount = createText(font, "There are 50 penguins left.", fontSize, windowWidth / 2.f, 210.f);
     
-    sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", fontSize, windowWidth / 2.f, 850.f);
+    sf::Text threwFishText = createText(font, "", fontSize, windowWidth / 2.f, 825.f);
+    
+    sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", fontSize, windowWidth / 2.f, 875.f);
     
     const float boardX = 600.f;
     const float boardY = 500.f;
     const float cellSize = 50.f;
     
-    float startX = window.getSize().x / 2.f - boardX / 2.f;
-    float startY = window.getSize().y / 2.f - boardY / 2.f;
+    const float startX = window.getSize().x / 2.f - boardX / 2.f;
+    const float startY = window.getSize().y / 2.f - boardY / 2.f;
     
     // Panel for displaying throw fish move
     float panelX = startX;
@@ -190,6 +192,8 @@ bool Game::draw(sf::RenderWindow& window) {
     int rows = m_valley->rows();
     int cols = m_valley->cols();
     char move = 'r';
+    
+    const std::string direction[4] = {"Up", "Down", "Left", "Right"};
 
     // ---------------
     // Main Gamne Loop
@@ -219,8 +223,8 @@ bool Game::draw(sf::RenderWindow& window) {
                 
                 
                 if (!gameOver && turnType == TurnType::ThrowFish) {
-                    char directions[4] = {'n', 's', 'w', 'e'};
-                    char species[3] = {'K', 'G', 'M'};
+                    char directionCode[4] = {'n', 's', 'w', 'e'};
+                    char speciesCode[3] = {'K', 'G', 'M'};
                     
                     if (!gameOver && mouseX >= panelX && mouseX < panelX + 12 * cellSize &&
                         mouseY >= panelY && mouseY < panelY + 3 * cellSize) {
@@ -228,8 +232,10 @@ bool Game::draw(sf::RenderWindow& window) {
                         int row = (mouseY - panelY) / cellSize;
                         int col = (mouseX - panelX) / (3 * cellSize);
                         
-                        int dir = decodeDirection(directions[col]);
-                        m_valley->movePenguins(species[row], dir);
+                        int dir = decodeDirection(directionCode[col]);
+                        m_valley->movePenguins(speciesCode[row], dir);
+                        
+                        threwFishText.setString("You threw a " + std::string(1, speciesCode[row]) + " fish " + direction[col]);
                     }
                     
                     if (player->isDead() || m_valley->penguinCount() == 0) {
@@ -360,6 +366,7 @@ bool Game::draw(sf::RenderWindow& window) {
             infoText.setString("Your move (WASD to move, X to do nothing, anything else for computer recommended move)");
         } else if (!gameOver && turnType == TurnType::ThrowFish) {
             infoText.setString("");
+            threwFishText.setString("");
             
             std::string directions[4] = {"Up", "Down", "Left", "Right"};
             std::string species[3] = {"K", "G", "M"};
@@ -393,11 +400,13 @@ bool Game::draw(sf::RenderWindow& window) {
         }
         
         recenterText(infoText);
+        recenterText(threwFishText);
         
         window.draw(title);
         window.draw(menuText);
         window.draw(penguinCount);
         window.draw(menuButton);
+        window.draw(threwFishText);
         window.draw(infoText);
         
         window.display();
