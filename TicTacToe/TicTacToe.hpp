@@ -6,24 +6,26 @@
 
 class TicTacToe {
 private:
+    // Game State
     char playerToMove;
     char board[3][3];
     bool gameOver;
     
-//    Helper functions
+    // Game Logic
     void updateBoard(int move);
     void displayBoard();
     bool isWinner(char player);
     bool isBoardFull();
     
 public:
-//    Constructor
     TicTacToe();
+    
+    // Game Control
+    bool isGameOver();
     void runTicTacToe();
     
-//    Drawing functions
+    // Rendering
     bool draw(sf::RenderWindow& window);
-    bool isGameOver();
 };
 
 #endif

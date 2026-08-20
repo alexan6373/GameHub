@@ -1,7 +1,7 @@
-#include <iostream>
-
 #include "TicTacToe.hpp"
 #include "GraphicsHelper.hpp"
+
+#include <iostream>
 
 void TicTacToe::updateBoard(int move) {
     board[move / 3][move % 3] = playerToMove;
@@ -105,34 +105,46 @@ void TicTacToe::runTicTacToe() {
 bool TicTacToe::draw(sf::RenderWindow& window) {
     gameOver = false;
     
+    // ------------------
+    // Set Up Tic Tac Toe
+    // ------------------
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    const float windowWidth = window.getSize().x;
     
-    sf::Text title = createText(font, "Tic Tac Toe", 80.f, window.getSize().x / 2.f, 50);
+    sf::Text title = createText(font, "Tic Tac Toe", 80.f, windowWidth / 2.f, 50.f);
     
-    sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
-    sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);
+    sf::RectangleShape menuButton = createButton({300.f, 60.f},
+                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
+    sf::Text menuText = createText(font, "Return to main menu", 20.f, windowWidth / 2.f, 140.f);
     
-    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f, window.getSize().x / 2.f, 850.f);
+    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f, windowWidth / 2.f, 850.f);
     
     int move;
     playerToMove = 'X';
-    for (int row = 0; row < 3; row++) {
-        for (int col = 0; col < 3; col++) {
+    for (int row = 0; row < 3; row++)
+        for (int col = 0; col < 3; col++)
             board[row][col] = ' ';
-        }
-    }
     
     const float boardSize = 570.f;
     const float cellSize = 190.f;
     
-    float startX = window.getSize().x / 2.f - boardSize / 2.f;
-    float startY = window.getSize().y / 2.f - boardSize / 2.f;
+    // Represents bounds of the board
+    const float startX = window.getSize().x / 2.f - boardSize / 2.f;
+    const float startY = window.getSize().y / 2.f - boardSize / 2.f;
+    const float endX = startX + boardSize;
+    const float endY = startY + boardSize;
 
+    // ---------------
+    // Main Gamne Loop
+    //----------------
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
             
+            // ---------------------------------
+            // Handles Keyboard and Mouse Events
+            // ---------------------------------
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                     return true;
@@ -148,14 +160,15 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
                 if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
                     return true;
                 
-                if (!gameOver && mouseX >= startX && mouseX < startX + boardSize &&
-                    mouseY >= startY && mouseY < startY + boardSize) {
+                if (!gameOver &&
+                    mouseX >= startX && mouseX < endX &&
+                    mouseY >= startY && mouseY < endY) {
                     
                     int row = (mouseY - startY) / cellSize;
                     int col = (mouseX - startX) / cellSize;
                     move = 3 * row + col;
                     
-                    if (move < 0 || move > 8 || board[move / 3][move % 3] != ' ') {
+                    if (board[move / 3][move % 3] != ' ') {
                         infoText.setString("Invalid move.");
                         continue;
                     }
@@ -178,6 +191,9 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
         
         window.clear(sf::Color(210, 180, 140));
         
+        // -------------------
+        // Render Game Objects
+        // -------------------
         for (int i = 0; i < 4; i++) {
             sf::RectangleShape line({5.f, boardSize + 5.f});
             line.setPosition({startX + i * cellSize, startY});
@@ -194,19 +210,13 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
         
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                if (board[row][col] == 'X') {
-                    sf::Text xTile = createText(font, "X", 150.f,
+                if (board[row][col] != ' ') {
+                    sf::Text tile = createText(font, std::string(1, board[row][col]), 150.f,
                                                 startX + cellSize / 2 + col * cellSize,
-                                                startY + cellSize / 2 + row * cellSize,
-                                                sf::Color::Blue);
-                    window.draw(xTile);
-                    
-                } else if (board[row][col] == 'O') {
-                    sf::Text oTile = createText(font, "O", 150.f,
-                                                startX + cellSize / 2 + col * cellSize,
-                                                startY + cellSize / 2 + row * cellSize,
-                                                sf::Color::Red);
-                    window.draw(oTile);
+                                                startY + cellSize / 2 + row * cellSize);
+                    board[row][col] == 'X' ? tile.setFillColor(sf::Color::Blue)
+                                           : tile.setFillColor(sf::Color::Red);
+                    window.draw(tile);
                 }
             }
         }
