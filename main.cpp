@@ -4,18 +4,21 @@
 
 #include "FifteenPuzzle/FifteenPuzzle.hpp"
 #include "PenguinPalooza/PenguinPalooza.hpp"
+#include "PenguinPalooza/Game.hpp"
 #include "Hangman/Hangman.hpp"
 #include "TicTacToe/TicTacToe.hpp"
 #include "GraphicsHelper.hpp"
 
 int main() {
+//    runPenguinGame();
+//    return 0;
+    
     enum class Screen {
         MainMenu,
         FifteenPuzzle,
         Hangman,
         PenguinPalooza,
-        TicTacToe,
-        ChorusLapilli,
+        TicTacToe
     };
     Screen currentScreen = Screen::MainMenu;
     
@@ -46,16 +49,18 @@ int main() {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
-        
+            
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Left) {
                     sf::Vector2f mousePosition(
-                        static_cast<float>(mouseButtonPressed->position.x),
-                        static_cast<float>(mouseButtonPressed->position.y)
-                    );
+                                               static_cast<float>(mouseButtonPressed->position.x),
+                                               static_cast<float>(mouseButtonPressed->position.y)
+                                               );
                     
                     if (fifteenPuzzleButton.getGlobalBounds().contains(mousePosition)) {
                         currentScreen = Screen::FifteenPuzzle;
+                    } else if (penguinButton.getGlobalBounds().contains(mousePosition)) {
+                        currentScreen = Screen::PenguinPalooza;
                     } else if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
                         currentScreen = Screen::TicTacToe;
                     }
@@ -66,7 +71,7 @@ int main() {
         window.clear(sf::Color(210, 180, 140));
         
         if (currentScreen == Screen::MainMenu) {
-            window.draw(title);            
+            window.draw(title);
             window.draw(fifteenPuzzleButton);
             window.draw(fifteenPuzzleText);
             window.draw(hangmanButton);
@@ -78,6 +83,11 @@ int main() {
             
         } else if (currentScreen == Screen::FifteenPuzzle) {
             if (fifteenPuzzle.draw(window))
+                currentScreen = Screen::MainMenu;
+            
+        } else if (currentScreen == Screen::PenguinPalooza) {
+            Game g(10, 12, 50);
+            if (g.drawPenguinGame(window))
                 currentScreen = Screen::MainMenu;
             
         } else if (currentScreen == Screen::TicTacToe) {

@@ -17,6 +17,7 @@ class Valley {
     int     rows() const;
     int     cols() const;
     Player* player() const;
+    Penguin* const* penguins() const;
     int     penguinCount() const;
     bool    hasProtrusionAt(int r, int c) const;
     int     numberOfPenguinsAt(int r, int c) const;

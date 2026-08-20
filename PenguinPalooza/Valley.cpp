@@ -50,6 +50,10 @@ Player* Valley::player() const {
     return m_player;
 }
 
+Penguin* const* Valley::penguins() const {
+    return m_penguins;
+}
+
 int Valley::penguinCount() const {
     return m_nPenguins;
 }
