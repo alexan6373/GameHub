@@ -3,15 +3,11 @@
 
 #include <string>
 #include <vector>
-
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
 class Hangman {
 private:
-    std::string secretWord;
-    std::vector<char> runningGuess;
-    std::vector<int> alreadyUsedLetters;
     std::vector<std::string> wordBank = {
         "apple", "banana", "computer", "hangman", "elephant",
         "library", "mountain", "keyboard", "programming", "galaxy", "ocean",
@@ -19,21 +15,28 @@ private:
         "chocolate", "rainbow", "astronaut", "notebook"
     };
     
+    // Game State
+    std::string secretWord;
+    std::vector<char> runningGuess;
+    std::vector<int> alreadyUsedLetters;
     int guessLeft;
     bool gameOver;
     
-//    Helper functions
+    // Game Logic
     void updateBoard(char guess);
     void displayBoard();
     bool isValidGuess(char guess);
     bool guessIsCorrect(char guess);
-    bool didPlayerWin();
 
 public:
     Hangman();
+    
+    // Game Control
     void runHangmanGame();
+    bool didPlayerWin();
+    
+    // Rendering The Game
     bool draw(sf::RenderWindow& window);
-
 };
 
 #endif

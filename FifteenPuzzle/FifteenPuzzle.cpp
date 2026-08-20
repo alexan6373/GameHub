@@ -5,7 +5,6 @@
 #include "FifteenPuzzle.hpp"
 #include "GraphicsHelper.hpp"
 
-// Helper functions
 void FifteenPuzzle::makeMove(std::string move) {
     int x = emptySquare.first;
     int y = emptySquare.second;
@@ -98,11 +97,9 @@ void FifteenPuzzle::setUpBoard() {
         
         if (isValidMove(moves[move]))
             makeMove(moves[move]);
-            
     }
 }
-    
-// Constructor
+
 FifteenPuzzle::FifteenPuzzle():
     board{{1, 2, 3, 4},
         {5, 6, 7, 8},
@@ -111,7 +108,6 @@ FifteenPuzzle::FifteenPuzzle():
     emptySquare{3, 3} {
 }
 
-// Main game functions
 void FifteenPuzzle::runFifteenPuzzleGame() {
     setUpBoard();
     
@@ -154,6 +150,9 @@ void FifteenPuzzle::runFifteenPuzzleGame() {
 }
 
 bool FifteenPuzzle::draw(sf::RenderWindow& window) {
+    // ---------------------
+    // Set Up Fifteen Puzzle
+    // ---------------------
     setUpBoard();
     gameOver = false;
     
@@ -169,14 +168,21 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     const float boardSize = 600.f;
     const float cellSize = 150.f;
     
-    float startX = window.getSize().x / 2.f - boardSize / 2.f + 10;
-    float startY = window.getSize().y / 2.f - boardSize / 2.f + 10;
+    // Represents bounds of the board
+    const float startX = window.getSize().x / 2.f - boardSize / 2.f + 10;
+    const float startY = window.getSize().y / 2.f - boardSize / 2.f + 10;
 
+    // ---------------
+    // Main Gamne Loop
+    //----------------
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
             
+            // ---------------------------------
+            // Handles Keyboard and Mouse Events
+            // ---------------------------------
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right)
                     continue;
@@ -222,6 +228,9 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
         
         window.clear(sf::Color(210, 180, 140));
         
+        // -------------------
+        // Render Game Objects
+        // -------------------
         for (int i = 0; i < 5; i++) {
             sf::RectangleShape line({5.f, boardSize + 5.f});
             line.setPosition({startX + i * cellSize, startY});
@@ -239,15 +248,13 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
         for (int row = 0; row < 4; row++) {
             for (int col = 0; col < 4; col++) {
                 int cellVal = board[row][col];
-                if (board[row][col] != 0) {
+                if (cellVal != 0) {
                     sf::Text tile = createText(font, std::to_string(cellVal), 120.f,
                                                startX + cellSize / 2 + col * cellSize,
                                                startY + cellSize / 2 + row * cellSize);
                     
-                    if (cellVal == 4 * row + col + 1)
-                        tile.setFillColor(sf::Color::Green);
-                    else
-                        tile.setFillColor(sf::Color::Blue);
+                    cellVal == 4 * row + col + 1 ? tile.setFillColor(sf::Color::Green)
+                                                 : tile.setFillColor(sf::Color::Blue);
                     
                     window.draw(tile);
                     

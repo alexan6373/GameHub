@@ -2,7 +2,7 @@
 #include "Valley.hpp"
 #include "Player.hpp"
 #include "Penguin.hpp"
-#include "Helper.hpp"
+#include "PenguinGameHelper.hpp"
 #include "GraphicsHelper.hpp"
 
 #include <iostream>
@@ -151,21 +151,28 @@ void Game::play() {
         std::cout << "You win." << std::endl;
 }
 
-bool Game::drawPenguinGame(sf::RenderWindow& window) {
+bool Game::draw(sf::RenderWindow& window) {
+    // -------------------
+    // Set Up Penguin Game
+    // -------------------
+    
     gameOver = false;
     enum TurnType {Move, ThrowFish};
     TurnType turnType = TurnType::Move;
     
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    const float windowWidth = window.getSize().x;
+    const float fontSize = 20.f;
     
-    sf::Text title = createText(font, "Penguin Palooza", 80.f, window.getSize().x / 2.f, 50);
+    sf::Text title = createText(font, "Penguin Palooza", 80.f, windowWidth / 2.f, 50);
     
-    sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
-    sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);
+    sf::RectangleShape menuButton = createButton({300.f, 60.f},
+                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
+    sf::Text menuText = createText(font, "Return to main menu", fontSize, windowWidth / 2.f, 140.f);
     
-    sf::Text penguinCount = createText(font, "There are 50 penguins left.", 20.f, window.getSize().x / 2.f, 210.f);
+    sf::Text penguinCount = createText(font, "There are 50 penguins left.", fontSize, windowWidth / 2.f, 210.f);
     
-    sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", 20.f, window.getSize().x / 2.f, 850.f);
+    sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", fontSize, windowWidth / 2.f, 850.f);
     
     const float boardX = 600.f;
     const float boardY = 500.f;
@@ -174,7 +181,7 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
     float startX = window.getSize().x / 2.f - boardX / 2.f;
     float startY = window.getSize().y / 2.f - boardY / 2.f;
     
-    // Panel for throwing fish move
+    // Panel for displaying throw fish move
     float panelX = startX;
     float panelY = startY + 11 * cellSize;
     
@@ -184,11 +191,17 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
     int cols = m_valley->cols();
     char move = 'r';
 
+    // ---------------
+    // Main Gamne Loop
+    //----------------
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
             
+            // ---------------------------------
+            // Handles Keyboard and Mouse Events
+            // ---------------------------------
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                     return true;
@@ -260,6 +273,9 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
         
         window.clear(sf::Color(200, 200, 200));
         
+        // -------------------
+        // Render Game Objects
+        // -------------------
         penguinCount.setString("There are " + std::to_string(m_valley->penguinCount()) +  " penguin(s) left.");
         recenterText(penguinCount);
         
@@ -293,7 +309,7 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
                     protrusion.setFillColor(sf::Color(139, 69, 19)); // Brown
                     protrusion.setOrigin({side / 2.f, height / 2.f});
                     protrusion.setPosition({startX + cellSize / 2 + (col - 1) * cellSize,
-                        startY + cellSize / 2 + (row - 1) * cellSize});
+                                            startY + cellSize / 2 + (row - 1) * cellSize});
                     
                     window.draw(protrusion);
                 } else if (row == player->row() && col == player->col()) {
@@ -301,7 +317,7 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
                     alivePlayer.setFillColor(sf::Color::Blue);
                     alivePlayer.setOrigin({10.f, 10.f});
                     alivePlayer.setPosition({startX + cellSize / 2 + (col - 1) * cellSize,
-                        startY + cellSize / 2 + (row - 1) * cellSize});
+                                             startY + cellSize / 2 + (row - 1) * cellSize});
                     
                     sf::Text deadPlayer = createText(font, "X", 20.f,
                                                      startX + cellSize / 2 + (col - 1) * cellSize,
@@ -325,13 +341,13 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
                                          startX + cellSize / 2 + (col - 1) * cellSize,
                                          startY + cellSize / 2 + (row - 1) * cellSize);
             
-            if (penguins[i]->species() == 'K') {
+            if (penguins[i]->species() == 'K')
                 penguin.setFillColor(sf::Color(0, 100, 0)); // Green
-            } else if (penguins[i]->species() == 'M') {
+            else if (penguins[i]->species() == 'M')
                 penguin.setFillColor(sf::Color(200, 100, 0)); // Orange
-            } else if (penguins[i]->species() == 'G') {
+            else if (penguins[i]->species() == 'G')
                 penguin.setFillColor(sf::Color(128, 0, 128)); // Purple
-            }
+            
             
             if (!occupied[row - 1][col - 1]) {
                 window.draw(penguin);

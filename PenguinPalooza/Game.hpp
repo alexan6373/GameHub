@@ -1,7 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
-#include <string>
 
+#include <string>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -15,7 +15,7 @@ class Game {
 
   // Mutators
     void play();
-    bool drawPenguinGame(sf::RenderWindow& window);
+    bool draw(sf::RenderWindow& window);
 
   private:
     Valley* m_valley;

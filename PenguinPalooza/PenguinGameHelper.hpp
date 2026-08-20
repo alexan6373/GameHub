@@ -1,6 +1,7 @@
 #ifndef HELPER_H
 #define HELPER_H
 
+// Constants
 const int MAXROWS = 20;                  // max number of rows in the valley
 const int MAXCOLS = 25;                  // max number of columns in the valley
 const int MAXPENGUINS = 100;             // max number of penguins allowed
@@ -17,8 +18,11 @@ const int BADDIR = -1;
 
 class Valley;
 
+// Helper Functions
 int decodeDirection(char ch);
 int randInt(int lowest, int highest);
+
+// Game Logic
 bool attemptMove(const Valley& v, int dir, int& r, int& c);
 bool recommendMove(const Valley& v, int r, int c, int& bestDir);
 void clearScreen();

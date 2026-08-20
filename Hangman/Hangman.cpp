@@ -5,7 +5,6 @@
 #include "Hangman.hpp"
 #include "GraphicsHelper.hpp"
 
-//    Helper functions
 void Hangman::updateBoard(char guess) {
     for (int i = 0; i < secretWord.size(); i++) {
         if (secretWord[i] == guess)
@@ -51,7 +50,6 @@ bool Hangman::guessIsCorrect(char guess) {
     return false;
 }
 
-//    Constructor
 Hangman::Hangman() : alreadyUsedLetters(26, 0), guessLeft(6) {
     std::random_device rd;
     std::mt19937 mt(rd());
@@ -61,8 +59,6 @@ Hangman::Hangman() : alreadyUsedLetters(26, 0), guessLeft(6) {
         runningGuess.push_back('_');
 }
 
-
-//    Main game function
 void Hangman::runHangmanGame() {
     while(true) {
         displayBoard();
@@ -97,30 +93,42 @@ void Hangman::runHangmanGame() {
 }
 
 bool Hangman::draw(sf::RenderWindow& window) {
+    // --------------
+    // Set Up Hangman
+    // --------------
     gameOver = false;
     
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    const float windowWidth = window.getSize().x;
+    const float fontSize = 20.f;
     
-    sf::Text title = createText(font, "Hangman", 80.f, window.getSize().x / 2.f, 50);
+    sf::Text title = createText(font, "Hangman", 80.f, windowWidth / 2.f, 50.f);
     
-    sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
-    sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);
+    sf::RectangleShape menuButton = createButton({300.f, 60.f},
+                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
+    sf::Text menuText = createText(font, "Return to main menu", fontSize, windowWidth / 2.f, 140.f);
     
-    sf::Text infoText = createText(font, "Guess a letter.", 20.f, window.getSize().x / 2.f, 210.f);
+    sf::Text infoText = createText(font, "Guess a letter.", fontSize, windowWidth / 2.f, 210.f);
     
-    sf::Text currGuess = createText(font, "_ _ _ _ _ _ _ _ __ _ _ _ _ _ ", 20.f, window.getSize().x / 2.f, 310.f);
+    sf::Text currGuessText = createText(font, "", fontSize, windowWidth / 2.f, 310.f);
     
-    sf::Text guessesLeft = createText(font, "You have " + std::to_string(guessLeft) + " guesses left.", 20.f, window.getSize().x / 2.f, 410.f);
+    sf::Text guessesLeftText = createText(font, "You have " + std::to_string(guessLeft) + " guesses left.", fontSize, windowWidth / 2.f, 410.f);
     
-    sf::Text alreadyGuessed = createText(font, "You have already guessed: ", 20.f, window.getSize().x / 2.f, 510.f);
+    sf::Text alreadyGuessedText = createText(font, "You have already guessed: ", fontSize, windowWidth / 2.f, 510.f);
     
     char guess;
 
+    // ---------------
+    // Main Gamne Loop
+    //----------------
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
                 window.close();
             
+            // ---------------------------------
+            // Handles Keyboard and Mouse Events
+            // ---------------------------------
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                     return true;
@@ -169,35 +177,35 @@ bool Hangman::draw(sf::RenderWindow& window) {
         
         window.clear(sf::Color(210, 180, 140));
 
+        // -------------------
+        // Render Game Objects
+        // -------------------
         recenterText(infoText);
         
         std::string currentGuess = "";
         for (int i = 0; i < secretWord.size(); i++)
             currentGuess += std::string(1, toupper(runningGuess[i])) + " ";
-        currGuess.setString(currentGuess);
-        recenterText(currGuess);
+        currGuessText.setString(currentGuess);
+        recenterText(currGuessText);
         
-        if (guessLeft == 1)
-            guessesLeft.setString("You have " + std::to_string(guessLeft) + " guess left.");
-        else
-            guessesLeft.setString("You have " + std::to_string(guessLeft) + " guesses left.");
-        
-        recenterText(guessesLeft);
+        guessLeft == 1 ? guessesLeftText.setString("You have " + std::to_string(guessLeft) + " guess left.")
+                       : guessesLeftText.setString("You have " + std::to_string(guessLeft) + " guesses left.");
+        recenterText(guessesLeftText);
         
         std::string lettersGuessed = "You have already guessed: ";
         for (int i = 0; i < 26; i++)
             if (alreadyUsedLetters[i] == 1)
                 lettersGuessed += std::string(1, (char) ('A' + i)) + " ";
-        alreadyGuessed.setString(lettersGuessed);
-        recenterText(alreadyGuessed);
+        alreadyGuessedText.setString(lettersGuessed);
+        recenterText(alreadyGuessedText);
         
         window.draw(title);
         window.draw(menuText);
         window.draw(menuButton);
         window.draw(infoText);
-        window.draw(currGuess);
-        window.draw(guessesLeft);
-        window.draw(alreadyGuessed);
+        window.draw(currGuessText);
+        window.draw(guessesLeftText);
+        window.draw(alreadyGuessedText);
         
         window.display();
     }

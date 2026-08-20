@@ -6,25 +6,25 @@
 
 class FifteenPuzzle {
 private:
+    // Game State
     int board[4][4];
     std::pair<int, int> emptySquare;
     bool gameOver;
     
-    // Functions for making moves
+    // Game Logic
     void makeMove(std::string move);
     bool isValidMove(std::string move);
-    
-    // Functions for managing the board
-    bool isGameOver();
     void displayBoard();
     void setUpBoard();
     
 public:
-    // Constructor
     FifteenPuzzle();
     
-    // Main game functions
+    // Game Control
     void runFifteenPuzzleGame();
+    bool isGameOver();
+    
+    // Rendering The Game
     bool draw(sf::RenderWindow& window);
 };
 

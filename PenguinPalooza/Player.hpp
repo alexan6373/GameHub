@@ -1,20 +1,21 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
 #include <string>
 
 class Valley;
 
 class Player {
   public:
-      // Constructor
+    // Constructor
     Player(Valley* vp, int r, int c);
 
-      // Accessors
+    // Accessors
     int  row() const;
     int  col() const;
     bool isDead() const;
 
-      // Mutators
+    // Mutators
     std::string stand();
     std::string move(int dir);
     void   setDead();

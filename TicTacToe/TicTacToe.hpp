@@ -24,7 +24,7 @@ public:
     bool isGameOver();
     void runTicTacToe();
     
-    // Rendering
+    // Rendering The Game
     bool draw(sf::RenderWindow& window);
 };
 

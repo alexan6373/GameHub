@@ -1,19 +1,20 @@
 #ifndef VALLEY_H
 #define VALLEY_H
 
-#include "Helper.hpp"
 #include <string>
+
+#include "PenguinGameHelper.hpp"
 
 class Player;
 class Penguin;
 
 class Valley {
   public:
-  // Constructor/destructor
+    // Constructor/destructor
     Valley(int nRows, int nCols);
     ~Valley();
 
-  // Accessors
+    // Accessors
     int     rows() const;
     int     cols() const;
     Player* player() const;
@@ -23,7 +24,7 @@ class Valley {
     int     numberOfPenguinsAt(int r, int c) const;
     void    display(std::string msg) const;
 
-  // Mutators
+    // Mutators
     void   placeProtrusionAt(int r, int c);
     bool   addPenguin(int r, int c, char species);
     bool   addPlayer(int r, int c);
@@ -37,7 +38,7 @@ class Valley {
     Penguin* m_penguins[MAXPENGUINS];
     int      m_nPenguins;
 
-  // Helper functions
+    // Helper functions
     void checkPos(int r, int c, std::string functionName) const;
     bool isPosInBounds(int r, int c) const;
 };

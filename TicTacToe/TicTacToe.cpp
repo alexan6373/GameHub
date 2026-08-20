@@ -1,7 +1,7 @@
+#include <iostream>
+
 #include "TicTacToe.hpp"
 #include "GraphicsHelper.hpp"
-
-#include <iostream>
 
 void TicTacToe::updateBoard(int move) {
     board[move / 3][move % 3] = playerToMove;
@@ -103,11 +103,11 @@ void TicTacToe::runTicTacToe() {
 }
 
 bool TicTacToe::draw(sf::RenderWindow& window) {
-    gameOver = false;
-    
     // ------------------
     // Set Up Tic Tac Toe
     // ------------------
+    gameOver = false;
+    
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     const float windowWidth = window.getSize().x;
     
@@ -210,11 +210,12 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
         
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                if (board[row][col] != ' ') {
-                    sf::Text tile = createText(font, std::string(1, board[row][col]), 150.f,
+                char cellVal = board[row][col];
+                if (cellVal != ' ') {
+                    sf::Text tile = createText(font, std::string(1, cellVal), 150.f,
                                                 startX + cellSize / 2 + col * cellSize,
                                                 startY + cellSize / 2 + row * cellSize);
-                    board[row][col] == 'X' ? tile.setFillColor(sf::Color::Blue)
+                    cellVal == 'X' ? tile.setFillColor(sf::Color::Blue)
                                            : tile.setFillColor(sf::Color::Red);
                     window.draw(tile);
                 }

@@ -6,16 +6,16 @@ class Valley;
 class Penguin
 {
   public:
-      // Constructor
+    // Constructor
     Penguin(Valley* vp, int r, int c, char species);
 
-      // Accessors
+    // Accessors
     int  row() const;
     int  col() const;
     char species() const;
     bool isDead() const;
 
-      // Mutators
+    // Mutators
     void forceMove(int dir);
     void move();
 

@@ -50,14 +50,6 @@ int main() {
     sf::RectangleShape quitButton = createButton({buttonWidth, buttonHeight},
                                                  {windowWidth / 2 - buttonWidth / 2, 700.f}, borderThickness);
     sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, 740.f);
-
-    // -------------------
-    // Create Game Objects
-    // -------------------
-    TicTacToe ticTacToe;
-    FifteenPuzzle fifteenPuzzle;
-    Hangman hangman;
-    Game penguinGame(10, 12, 50);
     
     while (window.isOpen()) {
         // ---------------------------------
@@ -110,18 +102,22 @@ int main() {
             window.draw(quitText);
             
         } else if (currentScreen == Screen::FifteenPuzzle) {
+            FifteenPuzzle fifteenPuzzle;
             if (fifteenPuzzle.draw(window))
                 currentScreen = Screen::MainMenu;
             
         } else if (currentScreen == Screen::Hangman) {
+            Hangman hangman;
             if (hangman.draw(window))
                 currentScreen = Screen::MainMenu;
             
         } else if (currentScreen == Screen::PenguinPalooza) {
-            if (penguinGame.drawPenguinGame(window))
+            Game penguinGame(10, 12, 50);
+            if (penguinGame.draw(window))
                 currentScreen = Screen::MainMenu;
             
         } else if (currentScreen == Screen::TicTacToe) {
+            TicTacToe ticTacToe;
             if (ticTacToe.draw(window))
                 currentScreen = Screen::MainMenu;
         }
