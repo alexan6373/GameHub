@@ -107,7 +107,7 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
     
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     
-    sf::Text title = createText(font, "TIC TAC TOE", 80.f, window.getSize().x / 2.f, 50);
+    sf::Text title = createText(font, "Tic Tac Toe", 80.f, window.getSize().x / 2.f, 50);
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
     sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);

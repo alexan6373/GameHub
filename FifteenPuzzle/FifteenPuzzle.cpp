@@ -189,10 +189,8 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
             }
             
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
-                    if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
                         return true;
-                }
                 
                 if (!gameOver && (keyPressed->scancode == sf::Keyboard::Scancode::W ||
                                   keyPressed->scancode == sf::Keyboard::Scancode::Up))

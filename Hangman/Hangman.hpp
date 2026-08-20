@@ -1,7 +1,11 @@
 #ifndef HANGMAN_H
 #define HANGMAN_H
+
 #include <string>
 #include <vector>
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 class Hangman {
 private:
@@ -14,7 +18,9 @@ private:
         "penguin", "triangle", "volcano", "sunflower", "adventure",
         "chocolate", "rainbow", "astronaut", "notebook"
     };
+    
     int guessLeft;
+    bool gameOver;
     
 //    Helper functions
     void updateBoard(char guess);
@@ -26,6 +32,7 @@ private:
 public:
     Hangman();
     void runHangmanGame();
+    bool draw(sf::RenderWindow& window);
 
 };
 

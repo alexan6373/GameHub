@@ -47,6 +47,8 @@ int main() {
     // Game objects
     TicTacToe ticTacToe;
     FifteenPuzzle fifteenPuzzle;
+    Hangman hangman;
+    Game penguinGame(10, 12, 50);
     
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
@@ -62,6 +64,8 @@ int main() {
                     
                     if (fifteenPuzzleButton.getGlobalBounds().contains(mousePosition)) {
                         currentScreen = Screen::FifteenPuzzle;
+                    } else if (hangmanButton.getGlobalBounds().contains(mousePosition)) {
+                        currentScreen = Screen::Hangman;
                     } else if (penguinButton.getGlobalBounds().contains(mousePosition)) {
                         currentScreen = Screen::PenguinPalooza;
                     } else if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
@@ -92,9 +96,12 @@ int main() {
             if (fifteenPuzzle.draw(window))
                 currentScreen = Screen::MainMenu;
             
+        } else if (currentScreen == Screen::Hangman) {
+            if (hangman.draw(window))
+                currentScreen = Screen::MainMenu;
+            
         } else if (currentScreen == Screen::PenguinPalooza) {
-            Game g(10, 12, 50);
-            if (g.drawPenguinGame(window))
+            if (penguinGame.drawPenguinGame(window))
                 currentScreen = Screen::MainMenu;
             
         } else if (currentScreen == Screen::TicTacToe) {
