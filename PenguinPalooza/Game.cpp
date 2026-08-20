@@ -354,6 +354,8 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
             infoText.setString("Player walked into a penguin and died.");
         }
         
+        recenterText(infoText);
+        
         window.draw(title);
         window.draw(menuText);
         window.draw(menuButton);

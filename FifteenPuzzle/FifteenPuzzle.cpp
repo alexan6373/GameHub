@@ -252,6 +252,8 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                 }
             }
         }
+        
+        recenterText(infoText);
 
         window.draw(title);
         window.draw(menuText);

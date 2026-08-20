@@ -23,3 +23,8 @@ sf::RectangleShape createButton(sf::Vector2f size, sf::Vector2f position, float 
     menuButton.setOutlineThickness(thickness);
     return menuButton;
 }
+
+void recenterText(sf::Text& text) {
+    sf::FloatRect bounds = text.getLocalBounds();
+    text.setOrigin({bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f});
+}

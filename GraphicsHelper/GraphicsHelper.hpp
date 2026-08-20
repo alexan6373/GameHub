@@ -12,4 +12,6 @@ sf::RectangleShape createButton(sf::Vector2f size, sf::Vector2f position, float 
                                 sf::Color fillColor = sf::Color::Transparent,
                                 sf::Color outLineColor = sf::Color::Black);
 
+void recenterText(sf::Text& text);
+
 #endif
