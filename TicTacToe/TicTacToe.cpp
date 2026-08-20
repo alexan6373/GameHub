@@ -133,6 +133,11 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
             if (event->is<sf::Event::Closed>())
                 window.close();
             
+            if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+                    return true;
+            }
+            
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right)
                     continue;
@@ -140,10 +145,8 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
                 float mouseX = static_cast<float>(mouseButtonPressed->position.x);
                 float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                 
-                if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
-                    gameOver = false;
+                if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
                     return true;
-                }
                 
                 if (!gameOver && mouseX >= startX && mouseX < startX + boardSize &&
                     mouseY >= startY && mouseY < startY + boardSize) {
@@ -176,7 +179,7 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
         window.clear(sf::Color(210, 180, 140));
         
         for (int i = 0; i < 4; i++) {
-            sf::RectangleShape line({5.f, boardSize});
+            sf::RectangleShape line({5.f, boardSize + 5.f});
             line.setPosition({startX + i * cellSize, startY});
             line.setFillColor(sf::Color::Black);
             window.draw(line);
@@ -217,7 +220,5 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
         
         window.display();
     }
-    
-    gameOver = false;
     return true;
 }

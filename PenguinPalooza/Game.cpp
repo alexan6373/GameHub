@@ -163,6 +163,8 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
     sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
     sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);
     
+    sf::Text penguinCount = createText(font, "There are 50 penguins left.", 20.f, window.getSize().x / 2.f, 210.f);
+    
     sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", 20.f, window.getSize().x / 2.f, 850.f);
     
     const float boardX = 600.f;
@@ -173,8 +175,8 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
     float startY = window.getSize().y / 2.f - boardY / 2.f;
     
     // Panel for throwing fish move
-    int panelX = startX;
-    int panelY = startY + 11 * cellSize;
+    float panelX = startX;
+    float panelY = startY + 11 * cellSize;
     
     Player* player = m_valley->player();
     Penguin* const* penguins = m_valley->penguins();
@@ -187,6 +189,11 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
             if (event->is<sf::Event::Closed>())
                 window.close();
             
+            if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+                    return true;
+            }
+            
             if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>()) {
                 if (mouseButtonPressed->button == sf::Mouse::Button::Right)
                     continue;
@@ -194,10 +201,9 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
                 float mouseX = static_cast<float>(mouseButtonPressed->position.x);
                 float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                 
-                if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
-                    gameOver = false;
+                if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
                     return true;
-                }
+                
                 
                 if (!gameOver && turnType == TurnType::ThrowFish) {
                     char directions[4] = {'n', 's', 'w', 'e'};
@@ -213,7 +219,7 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
                         m_valley->movePenguins(species[row], dir);
                     }
                     
-                    if (player->isDead()) {
+                    if (player->isDead() || m_valley->penguinCount() == 0) {
                         gameOver = true;
                     }
                     
@@ -254,8 +260,11 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
         
         window.clear(sf::Color(200, 200, 200));
         
+        penguinCount.setString("There are " + std::to_string(m_valley->penguinCount()) +  " penguin(s) left.");
+        recenterText(penguinCount);
+        
         for (int i = 0; i < 13; i++) {
-            sf::RectangleShape line({5.f, boardY});
+            sf::RectangleShape line({5.f, boardY + 5.f});
             line.setPosition({startX + i * cellSize, startY});
             line.setFillColor(sf::Color::Black);
             window.draw(line);
@@ -339,31 +348,44 @@ bool Game::drawPenguinGame(sf::RenderWindow& window) {
             std::string directions[4] = {"Up", "Down", "Left", "Right"};
             std::string species[3] = {"K", "G", "M"};
             
+            for (int i = 0; i < 5; i++) {
+                sf::RectangleShape line({5.f, 3 * cellSize + 5.f});
+                line.setPosition({panelX + i * 3 * cellSize, panelY});
+                line.setFillColor(sf::Color::Black);
+                window.draw(line);
+            }
+            
+            for (int i = 0; i < 4; i++) {
+                sf::RectangleShape line({12 * cellSize, 5.f});
+                line.setPosition({panelX, panelY + i * cellSize});
+                line.setFillColor(sf::Color::Black);
+                window.draw(line);
+            }
+            
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 4; j++) {
-                    sf::RectangleShape button = createButton({3 * cellSize, cellSize},
-                                                             {panelX + j * 3 * cellSize, panelY + i * cellSize}, 3.f);
                     sf::Text text = createText(font, "Throw " + species[i] + " fish " + directions[j], 15.f,
                                                panelX + j * 3 * cellSize + 3 * cellSize / 2.f,
                                                panelY + i * cellSize + cellSize / 2.f);
-                    window.draw(button);
                     window.draw(text);
                 }
             }
-        } else if (gameOver) {
+        } else if (gameOver && m_valley->penguinCount() > 0) {
             infoText.setString("Player walked into a penguin and died.");
+        } else if (gameOver && m_valley->penguinCount() == 0) {
+            infoText.setString("You won. All penguins are defeated.");
         }
         
         recenterText(infoText);
         
         window.draw(title);
         window.draw(menuText);
+        window.draw(penguinCount);
         window.draw(menuButton);
         window.draw(infoText);
         
         window.display();
     }
     
-    gameOver = false;
     return true;
 }

@@ -40,6 +40,9 @@ int main() {
     
     sf::RectangleShape ticTacToeButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 600.f}, 3.f);
     sf::Text ticTacToeText = createText(font, "Tic Tac Toe", 30.f, window.getSize().x / 2.f, 640.f);
+    
+    sf::RectangleShape quitButton = createButton({300.f, 80.f}, {window.getSize().x / 2.f - 150.f, 700.f}, 3.f);
+    sf::Text quitText = createText(font, "Quit", 30.f, window.getSize().x / 2.f, 740.f);
 
     // Game objects
     TicTacToe ticTacToe;
@@ -63,6 +66,8 @@ int main() {
                         currentScreen = Screen::PenguinPalooza;
                     } else if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
                         currentScreen = Screen::TicTacToe;
+                    } else if (quitButton.getGlobalBounds().contains(mousePosition)) {
+                        window.close();
                     }
                 }
             }
@@ -80,6 +85,8 @@ int main() {
             window.draw(penguinText);
             window.draw(ticTacToeButton);
             window.draw(ticTacToeText);
+            window.draw(quitButton);
+            window.draw(quitText);
             
         } else if (currentScreen == Screen::FifteenPuzzle) {
             if (fifteenPuzzle.draw(window))

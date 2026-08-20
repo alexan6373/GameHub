@@ -186,10 +186,14 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                 
                 if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
                     return true;
-            
             }
             
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                    if (keyPressed->scancode == sf::Keyboard::Scancode::Escape)
+                        return true;
+                }
+                
                 if (!gameOver && (keyPressed->scancode == sf::Keyboard::Scancode::W ||
                                   keyPressed->scancode == sf::Keyboard::Scancode::Up))
                     move = "w";
@@ -221,7 +225,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
         window.clear(sf::Color(210, 180, 140));
         
         for (int i = 0; i < 5; i++) {
-            sf::RectangleShape line({5.f, boardSize});
+            sf::RectangleShape line({5.f, boardSize + 5.f});
             line.setPosition({startX + i * cellSize, startY});
             line.setFillColor(sf::Color::Black);
             window.draw(line);
