@@ -4,6 +4,7 @@
 
 #include "Hangman.hpp"
 #include "GraphicsHelper.hpp"
+#include "AudioHelper.hpp"
 
 void Hangman::updateBoard(char guess) {
     for (int i = 0; i < secretWord.size(); i++) {
@@ -142,6 +143,7 @@ bool Hangman::draw(sf::RenderWindow& window) {
                 guess = static_cast<char>(unicode);
                 
                 if (isValidGuess(guess)) {
+                    hangmanMoveSound.play();
                     alreadyUsedLetters[tolower(guess) - 'a'] = 1;
                     if (guessIsCorrect(guess))
                         updateBoard(guess);
@@ -150,14 +152,17 @@ bool Hangman::draw(sf::RenderWindow& window) {
                         guessLeft--;
                     }
                 } else {
+                    hangmanMoveSound.play();
                     infoText.setString("Invalid guess or you already guessed that letter.");
                 }
                 
                 if (guessLeft == 0) {
                     infoText.setString("You ran out of guesses. The word was " + secretWord + ".");
+                    defeatSound.play();
                     gameOver = true;
                 } else if (didPlayerWin()) {
                     infoText.setString("Congratulations. You won.");
+                    victorySound.play();
                     gameOver = true;
                 }
             }
@@ -170,8 +175,10 @@ bool Hangman::draw(sf::RenderWindow& window) {
                 float mouseX = static_cast<float>(mouseButtonPressed->position.x);
                 float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                 
-                if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
+                if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
+                    clickSound.play();
                     return true;
+                }
             }
         }
         

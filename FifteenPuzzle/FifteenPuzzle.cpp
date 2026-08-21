@@ -4,6 +4,7 @@
 
 #include "FifteenPuzzle.hpp"
 #include "GraphicsHelper.hpp"
+#include "AudioHelper.hpp"
 
 void FifteenPuzzle::makeMove(std::string move) {
     int x = emptySquare.first;
@@ -190,8 +191,10 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                 float mouseX = static_cast<float>(mouseButtonPressed->position.x);
                 float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                 
-                if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
+                if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
+                    clickSound.play();
                     return true;
+                }
             }
             
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -216,10 +219,12 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                     infoText.setString("Invalid move.");
                 } else if (!gameOver && isValidMove(move)) {
                     makeMove(move);
+                    fifteenMoveSound.play();
                     infoText.setString("Use WASD or arrow keys to make moves.");
                     
                     if (isGameOver()) {
                         infoText.setString("You have won. Congratulations.\n");
+                        victorySound.play();
                         gameOver = true;
                     }
                 }

@@ -4,6 +4,7 @@
 #include "Penguin.hpp"
 #include "PenguinGameHelper.hpp"
 #include "GraphicsHelper.hpp"
+#include "AudioHelper.hpp"
 
 #include <iostream>
 #include <string>
@@ -218,9 +219,10 @@ bool Game::draw(sf::RenderWindow& window) {
                 float mouseX = static_cast<float>(mouseButtonPressed->position.x);
                 float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                 
-                if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
+                if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
+                    clickSound.play();
                     return true;
-                
+                }
                 
                 if (!gameOver && turnType == TurnType::ThrowFish) {
                     char directionCode[4] = {'n', 's', 'w', 'e'};
@@ -236,9 +238,14 @@ bool Game::draw(sf::RenderWindow& window) {
                         m_valley->movePenguins(speciesCode[row], dir);
                         
                         threwFishText.setString("You threw a " + std::string(1, speciesCode[row]) + " fish " + direction[col]);
+                        penguinMoveSound.play();
                     }
                     
-                    if (player->isDead() || m_valley->penguinCount() == 0) {
+                    if (player->isDead()) {
+                        defeatSound.play();
+                        gameOver = true;
+                    } else if (m_valley->penguinCount() == 0) {
+                        victorySound.play();
                         gameOver = true;
                     }
                     
@@ -262,12 +269,15 @@ bool Game::draw(sf::RenderWindow& window) {
                         move = 'r';
                     
                     int dir = decodeDirection(move);
+                    penguinMoveSound.play();
+                    
                     if (move == 'r') {
                         if (recommendMove(*m_valley, player->row(), player->col(), dir))
                             player->move(dir);
                     } else if (move != 'x') {
                         player->move(dir);
                         if (player->isDead()) {
+                            defeatSound.play();
                             gameOver = true;
                         }
                     }

@@ -8,11 +8,18 @@
 #include "Hangman/Hangman.hpp"
 #include "TicTacToe/TicTacToe.hpp"
 #include "GraphicsHelper.hpp"
+#include "AudioHelper.hpp"
 
 int main() {
     enum class Screen {MainMenu, FifteenPuzzle, Hangman,
                        PenguinPalooza, TicTacToe};
     Screen currentScreen = Screen::MainMenu;
+    
+//    // --------------------
+//    // Create Audio Objects
+//    // --------------------
+//    sf::SoundBuffer buffer("assets/sounds/click1.ogg");
+//    sf::Sound click(buffer);
     
     // --------------------
     // Create Window Object
@@ -69,16 +76,22 @@ int main() {
                     sf::Vector2f mousePosition(static_cast<float>(mouseButtonPressed->position.x),
                                                static_cast<float>(mouseButtonPressed->position.y));
                     
-                    if (fifteenPuzzleButton.getGlobalBounds().contains(mousePosition))
+                    if (fifteenPuzzleButton.getGlobalBounds().contains(mousePosition)) {
+                        clickSound.play();
                         currentScreen = Screen::FifteenPuzzle;
-                    else if (hangmanButton.getGlobalBounds().contains(mousePosition))
+                    } else if (hangmanButton.getGlobalBounds().contains(mousePosition)) {
+                        clickSound.play();
                         currentScreen = Screen::Hangman;
-                    else if (penguinButton.getGlobalBounds().contains(mousePosition))
+                    } else if (penguinButton.getGlobalBounds().contains(mousePosition)) {
+                        clickSound.play();
                         currentScreen = Screen::PenguinPalooza;
-                    else if (ticTacToeButton.getGlobalBounds().contains(mousePosition))
+                    } else if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
+                        clickSound.play();
                         currentScreen = Screen::TicTacToe;
-                    else if (quitButton.getGlobalBounds().contains(mousePosition))
+                    } else if (quitButton.getGlobalBounds().contains(mousePosition)) {
+                        clickSound.play();
                         window.close();
+                    }
                 }
             }
         }

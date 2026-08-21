@@ -2,6 +2,7 @@
 
 #include "TicTacToe.hpp"
 #include "GraphicsHelper.hpp"
+#include "AudioHelper.hpp"
 
 void TicTacToe::updateBoard(int move) {
     board[move / 3][move % 3] = playerToMove;
@@ -157,8 +158,10 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
                 float mouseX = static_cast<float>(mouseButtonPressed->position.x);
                 float mouseY = static_cast<float>(mouseButtonPressed->position.y);
                 
-                if (menuButton.getGlobalBounds().contains({mouseX, mouseY}))
+                if (menuButton.getGlobalBounds().contains({mouseX, mouseY})) {
+                    clickSound.play();
                     return true;
+                }
                 
                 if (!gameOver &&
                     mouseX >= startX && mouseX < endX &&
@@ -173,14 +176,17 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
                         continue;
                     }
                     
+                    tictactoeSound.play();
                     updateBoard(move);
                     
                     if (isWinner(playerToMove)) {
                         infoText.setString("The game is over. Player " + std::string(1, playerToMove) + " won.");
+                        victorySound.play();
                         gameOver = true;
                     } else if (isBoardFull()) {
                         infoText.setString("The game is a draw.");
                         gameOver = true;
+                        defeatSound.play();
                     } else {
                         playerToMove = playerToMove == 'X' ? 'O' : 'X';
                         infoText.setString("It is player " + std::string(1, playerToMove) + "'s turn.");
