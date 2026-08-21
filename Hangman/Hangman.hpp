@@ -19,6 +19,7 @@ private:
     std::string secretWord;
     std::vector<char> runningGuess;
     std::vector<int> alreadyUsedLetters;
+    std::vector<bool> letterInSecretWord;
     int guessLeft;
     bool gameOver;
     
@@ -36,6 +37,7 @@ public:
     bool didPlayerWin();
     
     // Rendering The Game
+    void setKeyboardColor(sf::RectangleShape& keyboardTile, char letter);
     bool draw(sf::RenderWindow& window);
 };
 

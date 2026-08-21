@@ -1,6 +1,7 @@
 #include <iostream>
 #include <random>
 #include <string>
+#include <vector>
 
 #include "Hangman.hpp"
 #include "GraphicsHelper.hpp"
@@ -42,7 +43,6 @@ bool Hangman::didPlayerWin() {
     return true;
 }
 
-
 bool Hangman::guessIsCorrect(char guess) {
     for (int i = 0; i < secretWord.size(); i++) {
         if (secretWord[i] == guess)
@@ -51,13 +51,16 @@ bool Hangman::guessIsCorrect(char guess) {
     return false;
 }
 
-Hangman::Hangman() : alreadyUsedLetters(26, 0), guessLeft(6) {
+Hangman::Hangman() : alreadyUsedLetters(26, 0), guessLeft(6), letterInSecretWord(26, false) {
     std::random_device rd;
     std::mt19937 mt(rd());
     
     secretWord = wordBank[mt() % wordBank.size()];
     for (int i = 0; i < secretWord.size(); i++)
         runningGuess.push_back('_');
+    
+    for (char ch : secretWord)
+        letterInSecretWord[ch - 'a'] = true;
 }
 
 void Hangman::runHangmanGame() {
@@ -93,6 +96,16 @@ void Hangman::runHangmanGame() {
     }
 }
 
+void Hangman::setKeyboardColor(sf::RectangleShape& keyboardTile, char letter) {
+    if (alreadyUsedLetters[letter - 'a'] == 0) {
+        keyboardTile.setFillColor(sf::Color::Transparent);
+    } else if (letterInSecretWord[letter - 'a']) {
+        keyboardTile.setFillColor(sf::Color::Green);
+    } else {
+        keyboardTile.setFillColor(sf::Color(150, 150, 150));
+    }
+}
+
 bool Hangman::draw(sf::RenderWindow& window) {
     // --------------
     // Set Up Hangman
@@ -102,6 +115,11 @@ bool Hangman::draw(sf::RenderWindow& window) {
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     const float windowWidth = window.getSize().x;
     const float fontSize = 20.f;
+    const std::vector<std::vector<char>> keyboard = {
+        {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
+        {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'},
+        {'z', 'x', 'c', 'v', 'b', 'n', 'm'}
+    };
     
     sf::Text title = createText(font, "Hangman", 80.f, windowWidth / 2.f, 50.f);
     
@@ -145,9 +163,10 @@ bool Hangman::draw(sf::RenderWindow& window) {
                 if (isValidGuess(guess)) {
                     hangmanMoveSound.play();
                     alreadyUsedLetters[tolower(guess) - 'a'] = 1;
-                    if (guessIsCorrect(guess))
+                    if (guessIsCorrect(guess)) {
+                        infoText.setString(std::string(1, toupper(guess)) + " is in the word.");
                         updateBoard(guess);
-                    else {
+                    } else {
                         infoText.setString(std::string(1, toupper(guess)) + " is not in the word.");
                         guessLeft--;
                     }
@@ -199,13 +218,41 @@ bool Hangman::draw(sf::RenderWindow& window) {
                        : guessesLeftText.setString("You have " + std::to_string(guessLeft) + " guesses left.");
         recenterText(guessesLeftText);
         
-        std::string lettersGuessed = "You have already guessed: ";
-        for (int i = 0; i < 26; i++)
-            if (alreadyUsedLetters[i] == 1)
-                lettersGuessed += std::string(1, (char) ('A' + i)) + " ";
-        alreadyGuessedText.setString(lettersGuessed);
-        recenterText(alreadyGuessedText);
+        std::string lettersGuessed = "You have already guessed";
+//        for (int i = 0; i < 26; i++)
+//            if (alreadyUsedLetters[i] == 1)
+//                lettersGuessed += std::string(1, (char) ('A' + i)) + " ";
+//        alreadyGuessedText.setString(lettersGuessed);
+//        recenterText(alreadyGuessedText);
         
+        for (int i = 0; i < 10; i++) {
+            sf::RectangleShape keyboardTile = createButton({50.f, 50.f},
+                                                           {windowWidth / 2.f - 250.f + i * 53.f, 600.f}, 3.f);
+            sf::Text keyboardText = createText(font, std::string(1, (char) toupper(keyboard[0][i])), 30.f, windowWidth / 2.f - 225.f + i * 53.f, 625.f);
+            
+            setKeyboardColor(keyboardTile, keyboard[0][i]);
+            window.draw(keyboardTile);
+            window.draw(keyboardText);
+        }
+        
+        for (int i = 0; i < 9; i++) {
+            sf::RectangleShape keyboardTile = createButton({50.f, 50.f},
+                                                       {windowWidth / 2.f - 225.f + i * 53.f, 653.f}, 3.f);
+            sf::Text keyboardText = createText(font, std::string(1, (char) toupper(keyboard[1][i])), 30.f, windowWidth / 2.f - 200.f + i * 53.f, 678.f);
+            setKeyboardColor(keyboardTile, keyboard[1][i]);
+            window.draw(keyboardTile);
+            window.draw(keyboardText);
+        }
+        
+        for (int i = 0; i < 7; i++) {
+            sf::RectangleShape keyboardTile = createButton({50.f, 50.f},
+                                                       {windowWidth / 2.f - 200.f + i * 53.f, 706}, 3.f);
+            sf::Text keyboardText = createText(font, std::string(1, (char) toupper(keyboard[2][i])), 30.f, windowWidth / 2.f - 175.f + i * 53.f, 731.f);
+            setKeyboardColor(keyboardTile, keyboard[2][i]);
+            window.draw(keyboardTile);
+            window.draw(keyboardText);
+        }
+            
         window.draw(title);
         window.draw(menuText);
         window.draw(menuButton);

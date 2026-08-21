@@ -12,14 +12,8 @@
 
 int main() {
     enum class Screen {MainMenu, FifteenPuzzle, Hangman,
-                       PenguinPalooza, TicTacToe};
+        PenguinPalooza, TicTacToe};
     Screen currentScreen = Screen::MainMenu;
-    
-//    // --------------------
-//    // Create Audio Objects
-//    // --------------------
-//    sf::SoundBuffer buffer("assets/sounds/click1.ogg");
-//    sf::Sound click(buffer);
     
     // --------------------
     // Create Window Object
