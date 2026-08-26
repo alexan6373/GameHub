@@ -18,6 +18,9 @@ extern sf::Sound penguinMoveSound;
 extern sf::SoundBuffer tictactoeMoveBuffer;
 extern sf::Sound tictactoeSound;
 
+extern sf::SoundBuffer chorusLapilliMoveBuffer;
+extern sf::Sound chorusLapilliSound;
+
 extern sf::SoundBuffer victorySoundBuffer;
 extern sf::Sound victorySound;
 

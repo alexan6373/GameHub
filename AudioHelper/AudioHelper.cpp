@@ -15,6 +15,9 @@ sf::Sound penguinMoveSound(penguinMoveBuffer);
 sf::SoundBuffer tictactoeMoveBuffer("assets/sounds/switch1.ogg");
 sf::Sound tictactoeSound(tictactoeMoveBuffer);
 
+sf::SoundBuffer chorusLapilliMoveBuffer("assets/sounds/switch1.ogg");
+sf::Sound chorusLapilliSound(chorusLapilliMoveBuffer);
+
 sf::SoundBuffer victorySoundBuffer("assets/sounds/jingles_NES03.ogg");
 sf::Sound victorySound(victorySoundBuffer);
 

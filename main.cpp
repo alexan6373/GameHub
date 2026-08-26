@@ -7,12 +7,14 @@
 #include "PenguinPalooza/Game.hpp"
 #include "Hangman/Hangman.hpp"
 #include "TicTacToe/TicTacToe.hpp"
+#include "ChorusLapilli/ChorusLapilli.hpp"
+
 #include "GraphicsHelper.hpp"
 #include "AudioHelper.hpp"
 
 int main() {
     enum class Screen {MainMenu, FifteenPuzzle, Hangman,
-        PenguinPalooza, TicTacToe};
+                       PenguinPalooza, TicTacToe, ChorusLapilli};
     Screen currentScreen = Screen::MainMenu;
     
     // --------------------
@@ -48,9 +50,13 @@ int main() {
                                                       {windowWidth / 2 - buttonWidth / 2, 600.f}, borderThickness);
     sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize, windowWidth / 2.f, 640.f);
     
-    sf::RectangleShape quitButton = createButton({buttonWidth, buttonHeight},
+    sf::RectangleShape chorusLapilliButton = createButton({buttonWidth, buttonHeight},
                                                  {windowWidth / 2 - buttonWidth / 2, 700.f}, borderThickness);
-    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, 740.f);
+    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize, windowWidth / 2.f, 740.f);
+    
+    sf::RectangleShape quitButton = createButton({buttonWidth, buttonHeight},
+                                                 {windowWidth / 2 - buttonWidth / 2, 800.f}, borderThickness);
+    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, 840.f);
     
     while (window.isOpen()) {
         // ---------------------------------
@@ -82,6 +88,9 @@ int main() {
                     } else if (ticTacToeButton.getGlobalBounds().contains(mousePosition)) {
                         clickSound.play();
                         currentScreen = Screen::TicTacToe;
+                    } else if (chorusLapilliButton.getGlobalBounds().contains(mousePosition)) {
+                        clickSound.play();
+                        currentScreen = Screen::ChorusLapilli;
                     } else if (quitButton.getGlobalBounds().contains(mousePosition)) {
                         clickSound.play();
                         window.close();
@@ -105,6 +114,8 @@ int main() {
             window.draw(penguinText);
             window.draw(ticTacToeButton);
             window.draw(ticTacToeText);
+            window.draw(chorusLapilliButton);
+            window.draw(chorusLapilliText);
             window.draw(quitButton);
             window.draw(quitText);
             
@@ -126,6 +137,11 @@ int main() {
         } else if (currentScreen == Screen::TicTacToe) {
             TicTacToe ticTacToe;
             if (ticTacToe.draw(window))
+                currentScreen = Screen::MainMenu;
+        
+        } else if (currentScreen == Screen::ChorusLapilli) {
+            ChorusLapilli chorusLapilli;
+            if (chorusLapilli.draw(window))
                 currentScreen = Screen::MainMenu;
         }
         
