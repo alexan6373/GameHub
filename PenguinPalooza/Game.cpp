@@ -287,7 +287,7 @@ bool Game::draw(sf::RenderWindow& window) {
             }
         }
         
-        window.clear(sf::Color(200, 200, 200));
+        window.clear(sf::Color(244, 248, 251));
         
         // -------------------
         // Render Game Objects

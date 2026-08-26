@@ -74,7 +74,7 @@ bool TicTacToe::isBoardFull() {
 TicTacToe::TicTacToe() : playerToMove('X'),
     board({' ', ' ', ' '},
           {' ', ' ', ' '},
-          {' ', ' ', ' '}) {}
+          {' ', ' ', ' '}){}
 
 void TicTacToe::runTicTacToe() {
     int move;
@@ -195,7 +195,7 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
             }
         }
         
-        window.clear(sf::Color(210, 180, 140));
+        window.clear(sf::Color(207, 232, 169));
         
         // -------------------
         // Render Game Objects
@@ -203,14 +203,14 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
         for (int i = 0; i < 4; i++) {
             sf::RectangleShape line({5.f, boardSize + 5.f});
             line.setPosition({startX + i * cellSize, startY});
-            line.setFillColor(sf::Color::Black);
+            line.setFillColor(sf::Color(139, 107, 74));
             window.draw(line);
         }
         
         for (int i = 0; i < 4; i++) {
             sf::RectangleShape line({boardSize, 5.f});
             line.setPosition({startX, startY + i * cellSize});
-            line.setFillColor(sf::Color::Black);
+            line.setFillColor(sf::Color(139, 107, 74));
             window.draw(line);
         }
         
@@ -221,8 +221,8 @@ bool TicTacToe::draw(sf::RenderWindow& window) {
                     sf::Text tile = createText(font, std::string(1, cellVal), 150.f,
                                                 startX + cellSize / 2 + col * cellSize,
                                                 startY + cellSize / 2 + row * cellSize);
-                    cellVal == 'X' ? tile.setFillColor(sf::Color::Blue)
-                                           : tile.setFillColor(sf::Color::Red);
+                    cellVal == 'X' ? tile.setFillColor(sf::Color(217, 93, 57))
+                                   : tile.setFillColor(sf::Color(58, 134, 200));
                     window.draw(tile);
                 }
             }

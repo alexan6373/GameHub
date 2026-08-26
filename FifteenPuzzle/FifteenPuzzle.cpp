@@ -231,7 +231,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
             }
         }
         
-        window.clear(sf::Color(210, 180, 140));
+        window.clear(sf::Color(245, 230, 204));
         
         // -------------------
         // Render Game Objects
@@ -239,14 +239,14 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
         for (int i = 0; i < 5; i++) {
             sf::RectangleShape line({5.f, boardSize + 5.f});
             line.setPosition({startX + i * cellSize, startY});
-            line.setFillColor(sf::Color::Black);
+            line.setFillColor(sf::Color(74, 47, 27));
             window.draw(line);
         }
         
         for (int i = 0; i < 5; i++) {
             sf::RectangleShape line({boardSize, 5.f});
             line.setPosition({startX, startY + i * cellSize});
-            line.setFillColor(sf::Color::Black);
+            line.setFillColor(sf::Color(74, 47, 27));
             window.draw(line);
         }
         
@@ -258,8 +258,8 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                                                startX + cellSize / 2 + col * cellSize,
                                                startY + cellSize / 2 + row * cellSize);
                     
-                    cellVal == 4 * row + col + 1 ? tile.setFillColor(sf::Color::Green)
-                                                 : tile.setFillColor(sf::Color::Blue);
+                    cellVal == 4 * row + col + 1 ? tile.setFillColor(sf::Color(127, 166, 106))
+                                                 : tile.setFillColor(sf::Color(201, 106, 74));
                     
                     window.draw(tile);
                     

@@ -227,7 +227,7 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
             }
         }
         
-        window.clear(sf::Color(210, 180, 140));
+        window.clear(sf::Color(232, 211, 165));
         
         // -------------------
         // Render Game Objects
@@ -241,10 +241,10 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
                 
                 if (currMove == MoveType::Move) {
                     if (3 * i + j == moveStart)
-                        boardTile.setFillColor(sf::Color(152, 255, 152)); // Light Green
+                        boardTile.setFillColor(sf::Color(217, 164, 65));
                     
                     if (isValidMove(moveStart, 3 * i + j) && board[i][j] == ' ')
-                        boardTile.setFillColor(sf::Color(137, 207, 240)); // Light Blue
+                        boardTile.setFillColor(sf::Color(168, 182, 108));
                     
                 }
                 
@@ -260,8 +260,8 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
                     sf::Text tile = createText(font, std::string(1, cellVal), 150.f,
                                                 startX + cellSize / 2 + col * cellSize,
                                                 startY + cellSize / 2 + row * cellSize);
-                    cellVal == 'X' ? tile.setFillColor(sf::Color::Blue)
-                                           : tile.setFillColor(sf::Color::Red);
+                    cellVal == 'X' ? tile.setFillColor(sf::Color(181, 82, 57))
+                                   : tile.setFillColor(sf::Color(63, 95, 122));
                     window.draw(tile);
                 }
             }
