@@ -1,6 +1,8 @@
 #ifndef CHORUSLAPILLI_H
 #define CHORUSLAPILLI_H
 
+#include <vector>
+
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
@@ -9,18 +11,17 @@ private:
     // Game State
     char playerToMove;
     char board[3][3];
+    std::vector<std::vector<int>> legalMoves;
     bool gameOver;
     
     // Game Logic
-    void updateBoard(int move);
     bool isWinner(char player);
-    bool isBoardFull();
+    bool isValidMove(int start, int end);
     
 public:
     ChorusLapilli();
     
     // Game Control
-    bool isGameOver();
     void runTicTacToe();
     
     // Rendering The Game

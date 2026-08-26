@@ -1,15 +1,65 @@
 #include "ChorusLapilli.hpp"
 #include "GraphicsHelper.hpp"
 #include "AudioHelper.hpp"
+bool ChorusLapilli::isWinner(char player) {
+    for (int row = 0; row < 3; row++) {
+        if (board[row][0] == board[row][1] &&
+            board[row][1] == board[row][2] &&
+            board[row][0] == player) {
+            return true;
+        }
+    }
 
-void ChorusLapilli::updateBoard(int move) {
-    board[move / 3][move % 3] = playerToMove;
+    // Check columns
+    for (int col = 0; col < 3; col++) {
+        if (board[0][col] == board[1][col] &&
+            board[1][col] == board[2][col] &&
+            board[0][col] == player) {
+            return true;
+        }
+    }
+
+    // Check diagonals
+    if (board[0][0] == board[1][1] &&
+        board[1][1] == board[2][2] &&
+        board[0][0] == player) {
+        return true;
+    }
+
+    if (board[0][2] == board[1][1] &&
+        board[1][1] == board[2][0] &&
+        board[0][2] == player) {
+        return true;
+    }
+    
+    return false;
+}
+
+bool ChorusLapilli::isValidMove(int start, int end) {
+    if (board[end / 3][end % 3] != ' ')
+        return false;
+
+    for (int destination : legalMoves[start]) {
+        if (destination == end)
+            return true;
+    }
+
+    return false;
 }
 
 ChorusLapilli::ChorusLapilli() : playerToMove('X'),
     board({' ', ' ', ' '},
           {' ', ' ', ' '},
-          {' ', ' ', ' '}) {}
+          {' ', ' ', ' '}),
+    legalMoves{{1, 3, 4},
+               {0, 2, 3, 4, 5},
+               {1, 4, 5},
+               {0, 1, 4, 6, 7},
+               {0, 1, 2, 3, 5, 6, 7, 8},
+               {1, 2, 4, 7, 8},
+               {3, 4, 7},
+               {3, 4, 5, 6, 8},
+               {4, 5, 7}} {}
 
 bool ChorusLapilli::draw(sf::RenderWindow& window) {
     // ------------------
@@ -93,39 +143,86 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
                     }
                     
                     chorusLapilliSound.play();
-                    updateBoard(moveStart);
+                    board[moveStart / 3][moveStart % 3] = playerToMove;
                     
                     movesSoFar++;
-                    if (movesSoFar >= 6)
+                    if (movesSoFar >= 6) {
                         currMove = MoveType::Select;
+                        moveStart = -1;
+                    }
                     
-                    playerToMove = playerToMove == 'X' ? 'O' : 'X';
-                    infoText.setString("It is player " + std::string(1, playerToMove) + "'s turn.");
-
-//                    if (isWinner(playerToMove)) {
-//                        infoText.setString("The game is over. Player " + std::string(1, playerToMove) + " won.");
-//                        victorySound.play();
-//                        gameOver = true;
-//                    } else if (isBoardFull()) {
-//                        infoText.setString("The game is a draw.");
-//                        gameOver = true;
-//                        defeatSound.play();
-//                    } else {
-                        
-//                    }
+                    if (isWinner(playerToMove)) {
+                        infoText.setString("The game is over. Player " + std::string(1, playerToMove) + " won.");
+                        victorySound.play();
+                        gameOver = true;
+                    } else {
+                        playerToMove = playerToMove == 'X' ? 'O' : 'X';
+                        infoText.setString("It is player " + std::string(1, playerToMove) + "'s turn.");
+                    }
+                    
                 } else if (currMove == MoveType::Select) {
                     moveStart = 3 * row + col;
                     
                     if (moveStart < 0 || moveStart > 8 ||
-                        board[moveStart / 3][moveStart % 3] != ' ') {
-                        infoText.setString("Invalid move.");
+                        board[moveStart / 3][moveStart % 3] != playerToMove) {
+                        infoText.setString("Select your own tile, player " + std::string(1, playerToMove) + ".");
                         continue;
                     } else {
                         infoText.setString("Select a destination tile.");
                         currMove = MoveType::Move;
                     }
+                
                 } else if (currMove == MoveType::Move) {
+                    moveEnd = 3 * row + col;
                     
+                    if (!isValidMove(moveStart, moveEnd)) {
+                        infoText.setString("Move to an empty adjacent square.");
+                        currMove = MoveType::Select;
+                        moveStart = -1;
+                        moveEnd = -1;
+                        continue;
+                    }
+                    
+                    if (board[1][1] != playerToMove) {
+                        board[moveStart / 3][moveStart % 3] = ' ';
+                        board[moveEnd / 3][moveEnd % 3] = playerToMove;
+                        
+                        if (isWinner(playerToMove)) {
+                            infoText.setString("The game is over. Player " + std::string(1, playerToMove) + " won.");
+                            victorySound.play();
+                            gameOver = true;
+                        }
+                        
+                        playerToMove = playerToMove == 'X' ? 'O' : 'X';
+                        infoText.setString("It is player " + std::string(1, playerToMove) + "'s turn.");
+                        
+                        currMove = MoveType::Select;
+                        moveStart = -1;
+                        moveEnd = -1;
+                        continue;
+                    }
+                    
+                    board[moveStart / 3][moveStart % 3] = ' ';
+                    board[moveEnd / 3][moveEnd % 3] = playerToMove;
+                    
+                    if (board[1][1] == playerToMove && !isWinner(playerToMove)) {
+                        board[moveStart / 3][moveStart % 3] = playerToMove;
+                        board[moveEnd / 3][moveEnd % 3] = ' ';
+                        
+                        infoText.setString("You must vacate the center or win on your next move, player " + std::string(1, playerToMove) + ".");
+                        
+                    } else if (isWinner(playerToMove)) {
+                        infoText.setString("The game is over. Player " + std::string(1, playerToMove) + " won.");
+                        victorySound.play();
+                        gameOver = true;
+                    } else {
+                        playerToMove = playerToMove == 'X' ? 'O' : 'X';
+                        infoText.setString("It is player " + std::string(1, playerToMove) + "'s turn.");
+                    }
+                    
+                    currMove = MoveType::Select;
+                    moveStart = -1;
+                    moveEnd = -1;
                 }
             }
         }
@@ -141,8 +238,15 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
                 sf::RectangleShape boardTile = createButton({cellSize, cellSize},
                                                             {startX + j * (cellSize + 3.f), startY + i * (cellSize + 3.f)},
                                                             3.f);
-                if (3 * i + j == moveStart)
-                    boardTile.setFillColor(sf::Color::Green);
+                
+                if (currMove == MoveType::Move) {
+                    if (3 * i + j == moveStart)
+                        boardTile.setFillColor(sf::Color(152, 255, 152)); // Light Green
+                    
+                    if (isValidMove(moveStart, 3 * i + j) && board[i][j] == ' ')
+                        boardTile.setFillColor(sf::Color(137, 207, 240)); // Light Blue
+                    
+                }
                 
                 window.draw(boardTile);
             }

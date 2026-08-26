@@ -35,28 +35,28 @@ int main() {
     sf::Text title = createText(font, "The Game Hub", 80.f, windowWidth / 2.f, 50.f);
     
     sf::RectangleShape fifteenPuzzleButton = createButton({buttonWidth, buttonHeight},
-                                                          {windowWidth / 2 - buttonWidth / 2, 300.f}, borderThickness);
-    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", buttonFontSize, windowWidth / 2.f, 340.f);
+                                                          {windowWidth / 2 - buttonWidth / 2, 200.f}, borderThickness);
+    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", buttonFontSize, windowWidth / 2.f, 240.f);
     
     sf::RectangleShape hangmanButton = createButton({buttonWidth, buttonHeight},
-                                                    {windowWidth / 2 - buttonWidth / 2, 400.f}, borderThickness);
-    sf::Text hangmanText = createText(font, "Hangman", buttonFontSize, windowWidth / 2.f, 440.f);
+                                                    {windowWidth / 2 - buttonWidth / 2, 300.f}, borderThickness);
+    sf::Text hangmanText = createText(font, "Hangman", buttonFontSize, windowWidth / 2.f, 340.f);
     
     sf::RectangleShape penguinButton = createButton({buttonWidth, buttonHeight},
-                                                    {windowWidth / 2 - buttonWidth / 2, 500.f}, borderThickness);
-    sf::Text penguinText = createText(font, "Penguin Palooza", buttonFontSize, windowWidth / 2.f, 540.f);
+                                                    {windowWidth / 2 - buttonWidth / 2, 400.f}, borderThickness);
+    sf::Text penguinText = createText(font, "Penguin Palooza", buttonFontSize, windowWidth / 2.f, 440.f);
     
     sf::RectangleShape ticTacToeButton = createButton({buttonWidth, buttonHeight},
-                                                      {windowWidth / 2 - buttonWidth / 2, 600.f}, borderThickness);
-    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize, windowWidth / 2.f, 640.f);
+                                                      {windowWidth / 2 - buttonWidth / 2, 500.f}, borderThickness);
+    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize, windowWidth / 2.f, 540.f);
     
     sf::RectangleShape chorusLapilliButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2 - buttonWidth / 2, 700.f}, borderThickness);
-    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize, windowWidth / 2.f, 740.f);
+                                                 {windowWidth / 2 - buttonWidth / 2, 600.f}, borderThickness);
+    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize, windowWidth / 2.f, 640.f);
     
     sf::RectangleShape quitButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2 - buttonWidth / 2, 800.f}, borderThickness);
-    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, 840.f);
+                                                 {windowWidth / 2 - buttonWidth / 2, 700.f}, borderThickness);
+    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, 740.f);
     
     while (window.isOpen()) {
         // ---------------------------------
