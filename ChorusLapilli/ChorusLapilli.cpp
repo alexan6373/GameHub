@@ -72,7 +72,7 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     const float windowWidth = window.getSize().x;
     
-    sf::Text title = createText(font, "Tic Tac Toe", 80.f, windowWidth / 2.f, 50.f);
+    sf::Text title = createText(font, "Chorus Laipilli", 80.f, windowWidth / 2.f, 50.f);
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f},
                                                  {windowWidth / 2.f - 150.f, 110.f}, 3.f);
