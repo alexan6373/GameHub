@@ -62,19 +62,9 @@ ChorusLapilli::ChorusLapilli() : playerToMove('X'),
                {4, 5, 7}} {}
 
 bool ChorusLapilli::draw(sf::RenderWindow& window) {
-    // ------------------
-    // Set Up Tic Tac Toe
-    // ------------------
-    gameOver = false;
-    enum class MoveType {Setup, Select, Move};
-    MoveType currMove = MoveType::Setup;
-    
-    int moveStart = -1;
-    int moveEnd = -1;
-    int movesSoFar = 0;
-    
-    sf::Font font("assets/fonts/Roboto-Regular.ttf");
-    
+    // ----------------
+    // Set Up Rendering
+    // ----------------
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
@@ -83,57 +73,38 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
     const float buttonHeight = windowHeight * 0.08f;
     const float borderThickness = 3.f;
     const float buttonFontSize = windowHeight * 0.03f;
-    
-    // Represents bounds of the board
-//    const float boardSize = 570.f;
-//    const float cellSize = 190.f;
-    
-//    const float startX = window.getSize().x / 2.f - boardSize / 2.f;
-//    const float startY = window.getSize().y / 2.f - boardSize / 2.f;
-//    const float endX = startX + boardSize;
-//    const float endY = startY + boardSize;
+    const float fontSize = windowHeight * 0.03f;
     
     const float boardSize = windowWidth * 0.4f;
     const float cellSize = boardSize / 3.f;
     const float startX = windowWidth / 2.f - boardSize / 2.f;
     const float startY = windowHeight / 2.f - boardSize / 2.f + windowHeight * 0.06f;
-    const float endX = startX + boardSize;
-    const float endY = startY + boardSize;
     
-    sf::Text title = createText(font, "Chorus Lapilli", titleHeight, windowWidth / 2.f,  windowHeight * 0.1);
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    
+    sf::Text title = createText(font, "Chorus Lapilli", titleHeight,
+                                windowWidth / 2.f,  windowHeight * 0.1);
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f},
                                                  {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.17f},
                                                  
                                                  borderThickness);
-    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f,  windowHeight * 0.17f + buttonHeight / 2.f);
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize,
+                                   windowWidth / 2.f,  windowHeight * 0.17f + buttonHeight / 2.f);
     
-    sf::Text infoText = createText(font, "It is Player X's turn.", buttonFontSize, windowWidth / 2.f,  windowHeight * 0.90f);
+    sf::Text infoText = createText(font, "It is Player X's turn.", fontSize,
+                                   windowWidth / 2.f,  windowHeight * 0.90f);
     
-//    const float windowWidth = window.getSize().x;
-//    
-//    sf::Text title = createText(font, "Chorus Laipilli", 80.f, windowWidth / 2.f, 50.f);
-//    
-//    sf::RectangleShape menuButton = createButton({300.f, 60.f},
-//                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
-//    sf::Text menuText = createText(font, "Return to main menu", 20.f, windowWidth / 2.f, 140.f);
-//    
-//    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f, windowWidth / 2.f, 850.f);
-//
-//    
-//    playerToMove = 'X';
-//    for (int row = 0; row < 3; row++)
-//        for (int col = 0; col < 3; col++)
-//            board[row][col] = ' ';
-//    
-//    const float boardSize = 570.f;
-//    const float cellSize = 190.f;
-//    
-//    // Represents bounds of the board
-//    const float startX = window.getSize().x / 2.f - boardSize / 2.f;
-//    const float startY = window.getSize().y / 2.f - boardSize / 2.f;
-//    const float endX = startX + boardSize;
-//    const float endY = startY + boardSize;
+    // ---------------------
+    // Set Up Chorus Lapilli
+    // ---------------------
+    gameOver = false;
+    enum class MoveType {Setup, Select, Move};
+    MoveType currMove = MoveType::Setup;
+    
+    int moveStart = -1;
+    int moveEnd = -1;
+    int movesSoFar = 0;
 
     // ---------------
     // Main Gamne Loop
@@ -164,8 +135,8 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
                 }
                 
                 if (gameOver ||
-                    mouseX < startX || mouseX >= endX ||
-                    mouseY < startY || mouseY >= endY)
+                    mouseX < startX || mouseX >= startX + boardSize ||
+                    mouseY < startY || mouseY >= startY + boardSize)
                     continue;
                 
                 int row = (mouseY - startY) / cellSize;

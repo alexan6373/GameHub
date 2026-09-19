@@ -36,7 +36,8 @@ int main() {
     const float borderThickness = 3.f;
     const float buttonFontSize = windowHeight * 0.03f;
     
-    sf::Text title = createText(font, "The Game Hub", titleHeight, windowWidth / 2.f, windowHeight * 0.1f);
+    sf::Text title = createText(font, "The Game Hub", titleHeight,
+                                windowWidth / 2.f, windowHeight * 0.1f);
     
     sf::RectangleShape fifteenPuzzleButton = createButton({buttonWidth, buttonHeight},
                                                           {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.2f},

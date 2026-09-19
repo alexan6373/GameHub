@@ -107,12 +107,9 @@ void Hangman::setKeyboardColor(sf::RectangleShape& keyboardTile, char letter) {
 }
 
 bool Hangman::draw(sf::RenderWindow& window) {
-    // --------------
-    // Set Up Hangman
-    // --------------
-    gameOver = false;
-    
-    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    // ----------------
+    // Set Up Rendering
+    // ----------------
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
@@ -121,28 +118,46 @@ bool Hangman::draw(sf::RenderWindow& window) {
     const float buttonHeight = windowHeight * 0.08f;
     const float borderThickness = 3.f;
     const float buttonFontSize = windowHeight * 0.03f;
+    const float fontSize = windowHeight * 0.03f;
     
-    sf::Text title = createText(font, "Hangman", titleHeight, windowWidth / 2.f, windowHeight * 0.1f, sf::Color(241, 245, 249));
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    
+    sf::Text title = createText(font, "Hangman", titleHeight,
+                                windowWidth / 2.f, windowHeight * 0.1f,
+                                sf::Color(241, 245, 249));
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f},
-                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.17f}, borderThickness,
+                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.17f},
+                                                 borderThickness,
                                                  sf::Color::Transparent, sf::Color(241, 245, 249));
-    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f, windowHeight * 0.17f + buttonHeight / 2.f, sf::Color(241, 245, 249));
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize,
+                                   windowWidth / 2.f, windowHeight * 0.17f + buttonHeight / 2.f,
+                                   sf::Color(241, 245, 249));
     
-    sf::Text infoText = createText(font, "Guess a letter.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.37f, sf::Color(241, 245, 249));
+    sf::Text infoText = createText(font, "Guess a letter.", fontSize,
+                                   windowWidth / 2.f, windowHeight * 0.37f,
+                                   sf::Color(241, 245, 249));
     
-    sf::Text currGuessText = createText(font, "", buttonFontSize, windowWidth / 2.f, windowHeight * 0.47f, sf::Color(241, 245, 249));
+    sf::Text currGuessText = createText(font, "", fontSize,
+                                        windowWidth / 2.f, windowHeight * 0.47f,
+                                        sf::Color(241, 245, 249));
     
-    sf::Text guessesLeftText = createText(font, "You have " + std::to_string(guessLeft) + " guesses left.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.57f, sf::Color(241, 245, 249));
+    sf::Text guessesLeftText = createText(font, "You have " + std::to_string(guessLeft) + " guesses left.", fontSize,
+                                          windowWidth / 2.f, windowHeight * 0.57f, sf::Color(241, 245, 249));
     
-    sf::Text alreadyGuessedText = createText(font, "You have already guessed: ", buttonFontSize, windowWidth / 2.f, windowHeight * 0.67f, sf::Color(241, 245, 249));
+    sf::Text alreadyGuessedText = createText(font, "You have already guessed: ", fontSize,
+                                             windowWidth / 2.f, windowHeight * 0.67f, sf::Color(241, 245, 249));
     
+    // --------------
+    // Set Up Hangman
+    // --------------
+    gameOver = false;
+    char guess;
     const std::vector<std::vector<char>> keyboard = {
         {'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p'},
         {'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l'},
         {'z', 'x', 'c', 'v', 'b', 'n', 'm'}
     };
-    char guess;
 
     // ---------------
     // Main Gamne Loop
@@ -208,6 +223,7 @@ bool Hangman::draw(sf::RenderWindow& window) {
             }
         }
         
+        // Navy blue background color
         window.clear(sf::Color(13, 27, 42));
 
         // -------------------

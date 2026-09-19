@@ -162,6 +162,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     const float buttonHeight = windowHeight * 0.08f;
     const float borderThickness = 3.f;
     const float buttonFontSize = windowHeight * 0.03f;
+    const float fontSize = windowHeight * 0.03f;
     
     // Represents bounds of the board
     const float boardSize = windowWidth * 0.4f;
@@ -178,7 +179,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     sf::Text menuText = createText(font, "Return to main menu", buttonFontSize,
                                    windowWidth / 2.f, windowHeight * 0.17f + buttonHeight / 2.f);
     
-    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", buttonFontSize,
+    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", fontSize,
                                    windowWidth / 2.f, windowHeight * 0.9f);
 
     // ---------------------
