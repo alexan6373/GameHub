@@ -20,50 +20,68 @@ int main() {
     // --------------------
     // Create Window Object
     // --------------------
+//    constexpr float DESIGN_WIDTH = 1200.f;
+//    constexpr float DESIGN_HEIGHT = 1000.f;
+//
+//    sf::RenderWindow window(
+//        sf::VideoMode({960, 800}),
+//        "GameHub"
+//    );
+//
+//    sf::View view(sf::FloatRect({0.f, 0.f}, {DESIGN_WIDTH, DESIGN_HEIGHT}));
+//    window.setView(view);
+    
     sf::RenderWindow window(sf::VideoMode({1200, 1000}), "GameHub", sf::Style::Default);
     
     // -----------------------
     // Create Text and Buttons
     // -----------------------
-    sf::Font font("assets/fonts/Roboto-Regular.ttf");
-    const float buttonWidth = 300.f;
-    const float buttonHeight = 80.f;
-    const float windowWidth = window.getSize().x;
-    const float borderThickness = 3.f;
-    const float buttonFontSize = 30.f;
+    // 1200 x 1000
     
-    sf::Text title = createText(font, "The Game Hub", 80.f, windowWidth / 2.f, 50.f);
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    const float windowWidth = window.getSize().x;
+    const float windowHeight = window.getSize().y;
+    
+    const float titleHeight = windowHeight * 0.05f;
+    
+    const float buttonWidth = windowWidth * 0.25f;
+    const float buttonHeight = windowHeight * 0.08f;
+    
+    const float borderThickness = 3.f;
+    const float buttonFontSize = windowHeight * 0.03f;
+    
+    sf::Text title = createText(font, "The Game Hub", windowHeight * 0.08f, windowWidth / 2.f, titleHeight);
     
     sf::RectangleShape fifteenPuzzleButton = createButton({buttonWidth, buttonHeight},
-                                                          {windowWidth / 2 - buttonWidth / 2, 200.f}, borderThickness);
+                                                          {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.2f}, borderThickness);
     fifteenPuzzleButton.setFillColor(sf::Color(245, 230, 204));
-    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", buttonFontSize, windowWidth / 2.f, 240.f);
+    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", buttonFontSize, windowWidth / 2.f, windowHeight * 0.24f);
     
     sf::RectangleShape hangmanButton = createButton({buttonWidth, buttonHeight},
-                                                    {windowWidth / 2 - buttonWidth / 2, 300.f}, borderThickness);
+                                                    {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.3f}, borderThickness);
     hangmanButton.setFillColor(sf::Color(13, 27, 42));
-    sf::Text hangmanText = createText(font, "Hangman", buttonFontSize, windowWidth / 2.f, 340.f);
+    sf::Text hangmanText = createText(font, "Hangman", buttonFontSize, windowWidth / 2.f, windowHeight * 0.34f);
     hangmanText.setFillColor(sf::Color(241, 245, 249));
     
     sf::RectangleShape penguinButton = createButton({buttonWidth, buttonHeight},
-                                                    {windowWidth / 2 - buttonWidth / 2, 400.f}, borderThickness);
+                                                    {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.4f}, borderThickness);
     penguinButton.setFillColor(sf::Color(244, 248, 251));
-    sf::Text penguinText = createText(font, "Penguin Palooza", buttonFontSize, windowWidth / 2.f, 440.f);
+    sf::Text penguinText = createText(font, "Penguin Palooza", buttonFontSize, windowWidth / 2.f, windowHeight * 0.44f);
     
     sf::RectangleShape ticTacToeButton = createButton({buttonWidth, buttonHeight},
-                                                      {windowWidth / 2 - buttonWidth / 2, 500.f}, borderThickness);
+                                                      {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.5f}, borderThickness);
     ticTacToeButton.setFillColor(sf::Color(207, 232, 169));
-    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize, windowWidth / 2.f, 540.f);
+    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize, windowWidth / 2.f, windowHeight * 0.54f);
     
     sf::RectangleShape chorusLapilliButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2 - buttonWidth / 2, 600.f}, borderThickness);
+                                                 {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.6f}, borderThickness);
     chorusLapilliButton.setFillColor(sf::Color(232, 211, 165));
-    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize, windowWidth / 2.f, 640.f);
+    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize, windowWidth / 2.f, windowHeight * 0.64f);
     
     sf::RectangleShape quitButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2 - buttonWidth / 2, 700.f}, borderThickness);
+                                                 {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.7f}, borderThickness);
     quitButton.setFillColor(sf::Color::Red);
-    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, 740.f);
+    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, windowHeight * 0.74f);
     
     while (window.isOpen()) {
         // ---------------------------------
