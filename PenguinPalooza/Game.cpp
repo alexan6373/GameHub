@@ -161,32 +161,39 @@ bool Game::draw(sf::RenderWindow& window) {
     enum TurnType {Move, ThrowFish};
     TurnType turnType = TurnType::Move;
     
-    sf::Font font("assets/fonts/Roboto-Regular.ttf");
     const float windowWidth = window.getSize().x;
-    const float fontSize = 20.f;
+    const float windowHeight = window.getSize().y;
     
-    sf::Text title = createText(font, "Penguin Palooza", 80.f, windowWidth / 2.f, 50);
+    const float titleHeight = windowHeight * 0.05f;
+    const float buttonWidth = windowWidth * 0.25f;
+    const float buttonHeight = windowHeight * 0.08f;
+    const float borderThickness = 3.f;
+    const float buttonFontSize = windowHeight * 0.03f;
+    
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    
+    sf::Text title = createText(font, "Penguin Palooza", titleHeight, windowWidth / 2.f, windowHeight * 0.05f);
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f},
-                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
-    sf::Text menuText = createText(font, "Return to main menu", fontSize, windowWidth / 2.f, 140.f);
+                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.11f}, borderThickness);
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f, windowHeight * 0.11f + buttonHeight / 2.f);
     
-    sf::Text penguinCount = createText(font, "There are 50 penguins left.", fontSize, windowWidth / 2.f, 210.f);
+    sf::Text penguinCount = createText(font, "There are 50 penguins left.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.22f);
     
-    sf::Text threwFishText = createText(font, "", fontSize, windowWidth / 2.f, 825.f);
+    sf::Text threwFishText = createText(font, "", buttonFontSize, windowWidth / 2.f, windowHeight * 0.825f);
     
-    sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", fontSize, windowWidth / 2.f, 875.f);
+    sf::Text infoText = createText(font, "Your move (WASD to move, X to do nothing, anything else for computer recommended move)", buttonFontSize, windowWidth / 2.f, windowHeight * 0.875f);
     
-    const float boardX = 600.f;
-    const float boardY = 500.f;
-    const float cellSize = 50.f;
+    const float boardWidth = windowWidth * 0.4f;
+    const float boardHeight = boardWidth * (5.f / 6.f);
+    const float cellSize = boardWidth / 12.f;
     
-    const float startX = window.getSize().x / 2.f - boardX / 2.f;
-    const float startY = window.getSize().y / 2.f - boardY / 2.f;
+    const float startX = windowWidth / 2.f - boardWidth / 2.f;
+    const float startY = windowHeight / 2.f - boardWidth / 2.f + windowHeight * 0.06;
     
     // Panel for displaying throw fish move
-    float panelX = startX;
-    float panelY = startY + 11 * cellSize;
+    float panelX = startX - 1.5f * cellSize;
+    float panelY = startY + 11.f * cellSize;
     
     Player* player = m_valley->player();
     Penguin* const* penguins = m_valley->penguins();
@@ -229,10 +236,10 @@ bool Game::draw(sf::RenderWindow& window) {
                     char speciesCode[3] = {'K', 'G', 'M'};
                     
                     if (!gameOver && mouseX >= panelX && mouseX < panelX + 12 * cellSize &&
-                        mouseY >= panelY && mouseY < panelY + 3 * cellSize) {
+                        mouseY >= panelY && mouseY < panelY + 4.f * cellSize) {
                         
                         int row = (mouseY - panelY) / cellSize;
-                        int col = (mouseX - panelX) / (3 * cellSize);
+                        int col = (mouseX - panelX) / (4.f * cellSize);
                         
                         int dir = decodeDirection(directionCode[col]);
                         m_valley->movePenguins(speciesCode[row], dir);
@@ -296,14 +303,14 @@ bool Game::draw(sf::RenderWindow& window) {
         recenterText(penguinCount);
         
         for (int i = 0; i < 13; i++) {
-            sf::RectangleShape line({5.f, boardY + 5.f});
+            sf::RectangleShape line({5.f, boardHeight + 5.f});
             line.setPosition({startX + i * cellSize, startY});
             line.setFillColor(sf::Color::Black);
             window.draw(line);
         }
         
         for (int i = 0; i < 11; i++) {
-            sf::RectangleShape line({boardX, 5.f});
+            sf::RectangleShape line({boardWidth, 5.f});
             line.setPosition({startX, startY + i * cellSize});
             line.setFillColor(sf::Color::Black);
             window.draw(line);
@@ -364,13 +371,11 @@ bool Game::draw(sf::RenderWindow& window) {
             else if (penguins[i]->species() == 'G')
                 penguin.setFillColor(sf::Color(128, 0, 128)); // Purple
             
-            
             if (!occupied[row - 1][col - 1]) {
                 window.draw(penguin);
                 occupied[row - 1][col - 1] = true;
             }
         }
-        
         
         if (!gameOver && turnType == TurnType::Move) {
             infoText.setString("Your move (WASD to move, X to do nothing, anything else for computer recommended move)");
@@ -381,24 +386,27 @@ bool Game::draw(sf::RenderWindow& window) {
             std::string directions[4] = {"Up", "Down", "Left", "Right"};
             std::string species[3] = {"K", "G", "M"};
             
+            // Rendering vertical lines of throwing fish move grid
             for (int i = 0; i < 5; i++) {
-                sf::RectangleShape line({5.f, 3 * cellSize + 5.f});
-                line.setPosition({panelX + i * 3 * cellSize, panelY});
+                sf::RectangleShape line({5.f, 3.f * cellSize + 5.f});
+                line.setPosition({panelX + i * 4.f * cellSize, panelY});
                 line.setFillColor(sf::Color::Black);
                 window.draw(line);
             }
             
+            // Rendering horizontal lines of throwing fish move grid
             for (int i = 0; i < 4; i++) {
-                sf::RectangleShape line({12 * cellSize, 5.f});
+                sf::RectangleShape line({16.f * cellSize, 5.f});
                 line.setPosition({panelX, panelY + i * cellSize});
                 line.setFillColor(sf::Color::Black);
                 window.draw(line);
             }
             
+            // Rendering text throwing fish move grid
             for (int i = 0; i < 3; i++) {
                 for (int j = 0; j < 4; j++) {
                     sf::Text text = createText(font, "Throw " + species[i] + " fish " + directions[j], 15.f,
-                                               panelX + j * 3 * cellSize + 3 * cellSize / 2.f,
+                                               panelX + j * 4.f * cellSize + 4.f * cellSize / 2.f,
                                                panelY + i * cellSize + cellSize / 2.f);
                     window.draw(text);
                 }

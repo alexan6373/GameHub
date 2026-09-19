@@ -36,7 +36,6 @@ int main() {
     // -----------------------
     // Create Text and Buttons
     // -----------------------
-    // 1200 x 1000
     
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
     const float windowWidth = window.getSize().x;

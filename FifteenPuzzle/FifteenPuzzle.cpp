@@ -157,21 +157,32 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     setUpBoard();
     gameOver = false;
     
-    sf::Font font("assets/fonts/Roboto-Regular.ttf");
-    sf::Text title = createText(font, "Fifteen Puzzle", 80.f, window.getSize().x / 2.f, 50);
+    const float windowWidth = window.getSize().x;
+    const float windowHeight = window.getSize().y;
     
-    sf::RectangleShape menuButton = createButton({300.f, 60.f}, {window.getSize().x / 2.f - 150.f, 110.f}, 3.f);
-    sf::Text menuText = createText(font, "Return to main menu", 20.f, window.getSize().x / 2.f, 140.f);
-    
-    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", 20.f, window.getSize().x / 2.f, 850.f);
-    
-    std::string move = "";
-    const float boardSize = 600.f;
-    const float cellSize = 150.f;
+    const float titleHeight = windowHeight * 0.05f;
+    const float buttonWidth = windowWidth * 0.25f;
+    const float buttonHeight = windowHeight * 0.08f;
+    const float borderThickness = 3.f;
+    const float buttonFontSize = windowHeight * 0.03f;
     
     // Represents bounds of the board
-    const float startX = window.getSize().x / 2.f - boardSize / 2.f + 10;
-    const float startY = window.getSize().y / 2.f - boardSize / 2.f + 10;
+    const float boardSize = windowWidth * 0.4f;
+    const float cellSize = boardSize / 4.f;
+    const float startX = windowWidth / 2.f - boardSize / 2.f;
+    const float startY = windowHeight / 2.f - boardSize / 2.f;
+    
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
+    sf::Text title = createText(font, "Fifteen Puzzle", windowHeight * 0.08f, windowWidth / 2.f, titleHeight);
+    
+    sf::RectangleShape menuButton = createButton({buttonWidth, buttonHeight},
+                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.11f},
+                                                 borderThickness);
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f, windowHeight * 0.11f + buttonHeight / 2.f);
+    
+    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.85f);
+    
+    std::string move = "";
 
     // ---------------
     // Main Gamne Loop
@@ -254,7 +265,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
             for (int col = 0; col < 4; col++) {
                 int cellVal = board[row][col];
                 if (cellVal != 0) {
-                    sf::Text tile = createText(font, std::to_string(cellVal), 120.f,
+                    sf::Text tile = createText(font, std::to_string(cellVal), 60.f,
                                                startX + cellSize / 2 + col * cellSize,
                                                startY + cellSize / 2 + row * cellSize);
                     
