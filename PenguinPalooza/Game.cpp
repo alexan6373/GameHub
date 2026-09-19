@@ -164,7 +164,7 @@ bool Game::draw(sf::RenderWindow& window) {
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
-    const float titleHeight = windowHeight * 0.05f;
+    const float titleHeight = windowHeight * 0.08f;
     const float buttonWidth = windowWidth * 0.25f;
     const float buttonHeight = windowHeight * 0.08f;
     const float borderThickness = 3.f;

@@ -160,7 +160,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
-    const float titleHeight = windowHeight * 0.05f;
+    const float titleHeight = windowHeight * 0.08f;
     const float buttonWidth = windowWidth * 0.25f;
     const float buttonHeight = windowHeight * 0.08f;
     const float borderThickness = 3.f;
@@ -170,17 +170,17 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     const float boardSize = windowWidth * 0.4f;
     const float cellSize = boardSize / 4.f;
     const float startX = windowWidth / 2.f - boardSize / 2.f;
-    const float startY = windowHeight / 2.f - boardSize / 2.f;
+    const float startY = windowHeight / 2.f - boardSize / 2.f + windowHeight * 0.03f;
     
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
-    sf::Text title = createText(font, "Fifteen Puzzle", windowHeight * 0.08f, windowWidth / 2.f, titleHeight);
+    sf::Text title = createText(font, "Fifteen Puzzle", titleHeight, windowWidth / 2.f, titleHeight);
     
     sf::RectangleShape menuButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.11f},
+                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.14f},
                                                  borderThickness);
-    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f, windowHeight * 0.11f + buttonHeight / 2.f);
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f, windowHeight * 0.14f + buttonHeight / 2.f);
     
-    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.85f);
+    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.88f);
     
     std::string move = "";
 

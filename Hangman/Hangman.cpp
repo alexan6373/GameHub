@@ -116,13 +116,13 @@ bool Hangman::draw(sf::RenderWindow& window) {
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
-    const float titleHeight = windowHeight * 0.05f;
+    const float titleHeight = windowHeight * 0.08f;
     const float buttonWidth = windowWidth * 0.25f;
     const float buttonHeight = windowHeight * 0.08f;
     const float borderThickness = 3.f;
     const float buttonFontSize = windowHeight * 0.03f;
     
-    sf::Text title = createText(font, "Hangman", 80.f, windowWidth / 2.f, titleHeight, sf::Color(241, 245, 249));
+    sf::Text title = createText(font, "Hangman", titleHeight, windowWidth / 2.f, windowHeight * 0.1f, sf::Color(241, 245, 249));
     
     sf::RectangleShape menuButton = createButton({300.f, 60.f},
                                                  {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.17f}, borderThickness,

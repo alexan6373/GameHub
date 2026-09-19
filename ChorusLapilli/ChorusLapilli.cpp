@@ -69,34 +69,71 @@ bool ChorusLapilli::draw(sf::RenderWindow& window) {
     enum class MoveType {Setup, Select, Move};
     MoveType currMove = MoveType::Setup;
     
-    sf::Font font("assets/fonts/Roboto-Regular.ttf");
-    const float windowWidth = window.getSize().x;
-    
-    sf::Text title = createText(font, "Chorus Laipilli", 80.f, windowWidth / 2.f, 50.f);
-    
-    sf::RectangleShape menuButton = createButton({300.f, 60.f},
-                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
-    sf::Text menuText = createText(font, "Return to main menu", 20.f, windowWidth / 2.f, 140.f);
-    
-    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f, windowWidth / 2.f, 850.f);
-    
     int moveStart = -1;
     int moveEnd = -1;
     int movesSoFar = 0;
     
-    playerToMove = 'X';
-    for (int row = 0; row < 3; row++)
-        for (int col = 0; col < 3; col++)
-            board[row][col] = ' ';
+    sf::Font font("assets/fonts/Roboto-Regular.ttf");
     
-    const float boardSize = 570.f;
-    const float cellSize = 190.f;
+    const float windowWidth = window.getSize().x;
+    const float windowHeight = window.getSize().y;
+    
+    const float titleHeight = windowHeight * 0.08f;
+    const float buttonWidth = windowWidth * 0.25f;
+    const float buttonHeight = windowHeight * 0.08f;
+    const float borderThickness = 3.f;
+    const float buttonFontSize = windowHeight * 0.03f;
     
     // Represents bounds of the board
-    const float startX = window.getSize().x / 2.f - boardSize / 2.f;
-    const float startY = window.getSize().y / 2.f - boardSize / 2.f;
+//    const float boardSize = 570.f;
+//    const float cellSize = 190.f;
+    
+//    const float startX = window.getSize().x / 2.f - boardSize / 2.f;
+//    const float startY = window.getSize().y / 2.f - boardSize / 2.f;
+//    const float endX = startX + boardSize;
+//    const float endY = startY + boardSize;
+    
+    const float boardSize = windowWidth * 0.4f;
+    const float cellSize = boardSize / 3.f;
+    const float startX = windowWidth / 2.f - boardSize / 2.f;
+    const float startY = windowHeight / 2.f - boardSize / 2.f + windowHeight * 0.06f;
     const float endX = startX + boardSize;
     const float endY = startY + boardSize;
+    
+    sf::Text title = createText(font, "Chorus Lapilli", titleHeight, windowWidth / 2.f,  windowHeight * 0.1);
+    
+    sf::RectangleShape menuButton = createButton({300.f, 60.f},
+                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.17f},
+                                                 
+                                                 borderThickness);
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f,  windowHeight * 0.17f + buttonHeight / 2.f);
+    
+    sf::Text infoText = createText(font, "It is Player X's turn.", buttonFontSize, windowWidth / 2.f,  windowHeight * 0.90f);
+    
+//    const float windowWidth = window.getSize().x;
+//    
+//    sf::Text title = createText(font, "Chorus Laipilli", 80.f, windowWidth / 2.f, 50.f);
+//    
+//    sf::RectangleShape menuButton = createButton({300.f, 60.f},
+//                                                 {windowWidth / 2.f - 150.f, 110.f}, 3.f);
+//    sf::Text menuText = createText(font, "Return to main menu", 20.f, windowWidth / 2.f, 140.f);
+//    
+//    sf::Text infoText = createText(font, "It is Player X's turn.", 20.f, windowWidth / 2.f, 850.f);
+//
+//    
+//    playerToMove = 'X';
+//    for (int row = 0; row < 3; row++)
+//        for (int col = 0; col < 3; col++)
+//            board[row][col] = ' ';
+//    
+//    const float boardSize = 570.f;
+//    const float cellSize = 190.f;
+//    
+//    // Represents bounds of the board
+//    const float startX = window.getSize().x / 2.f - boardSize / 2.f;
+//    const float startY = window.getSize().y / 2.f - boardSize / 2.f;
+//    const float endX = startX + boardSize;
+//    const float endY = startY + boardSize;
 
     // ---------------
     // Main Gamne Loop
