@@ -20,17 +20,6 @@ int main() {
     // --------------------
     // Create Window Object
     // --------------------
-//    constexpr float DESIGN_WIDTH = 1200.f;
-//    constexpr float DESIGN_HEIGHT = 1000.f;
-//
-//    sf::RenderWindow window(
-//        sf::VideoMode({960, 800}),
-//        "GameHub"
-//    );
-//
-//    sf::View view(sf::FloatRect({0.f, 0.f}, {DESIGN_WIDTH, DESIGN_HEIGHT}));
-//    window.setView(view);
-    
     sf::RenderWindow window(sf::VideoMode({1200, 1000}), "GameHub", sf::Style::Default);
     
     // -----------------------
@@ -41,46 +30,56 @@ int main() {
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
-    const float titleHeight = windowHeight * 0.05f;
-    
+    const float titleHeight = windowHeight * 0.08f;
     const float buttonWidth = windowWidth * 0.25f;
     const float buttonHeight = windowHeight * 0.08f;
-    
     const float borderThickness = 3.f;
     const float buttonFontSize = windowHeight * 0.03f;
     
-    sf::Text title = createText(font, "The Game Hub", windowHeight * 0.08f, windowWidth / 2.f, titleHeight);
+    sf::Text title = createText(font, "The Game Hub", titleHeight, windowWidth / 2.f, windowHeight * 0.1f);
     
     sf::RectangleShape fifteenPuzzleButton = createButton({buttonWidth, buttonHeight},
-                                                          {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.2f}, borderThickness);
+                                                          {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.2f},
+                                                          borderThickness);
     fifteenPuzzleButton.setFillColor(sf::Color(245, 230, 204));
-    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", buttonFontSize, windowWidth / 2.f, windowHeight * 0.24f);
+    sf::Text fifteenPuzzleText = createText(font, "Fifteen Puzzle", buttonFontSize,
+                                            windowWidth / 2.f, windowHeight * 0.24f);
     
     sf::RectangleShape hangmanButton = createButton({buttonWidth, buttonHeight},
-                                                    {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.3f}, borderThickness);
+                                                    {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.3f},
+                                                    borderThickness);
     hangmanButton.setFillColor(sf::Color(13, 27, 42));
-    sf::Text hangmanText = createText(font, "Hangman", buttonFontSize, windowWidth / 2.f, windowHeight * 0.34f);
+    sf::Text hangmanText = createText(font, "Hangman", buttonFontSize,
+                                      windowWidth / 2.f, windowHeight * 0.34f);
     hangmanText.setFillColor(sf::Color(241, 245, 249));
     
     sf::RectangleShape penguinButton = createButton({buttonWidth, buttonHeight},
-                                                    {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.4f}, borderThickness);
+                                                    {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.4f},
+                                                    borderThickness);
     penguinButton.setFillColor(sf::Color(244, 248, 251));
-    sf::Text penguinText = createText(font, "Penguin Palooza", buttonFontSize, windowWidth / 2.f, windowHeight * 0.44f);
+    sf::Text penguinText = createText(font, "Penguin Palooza", buttonFontSize,
+                                      windowWidth / 2.f, windowHeight * 0.44f);
     
     sf::RectangleShape ticTacToeButton = createButton({buttonWidth, buttonHeight},
-                                                      {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.5f}, borderThickness);
+                                                      {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.5f},
+                                                      borderThickness);
     ticTacToeButton.setFillColor(sf::Color(207, 232, 169));
-    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize, windowWidth / 2.f, windowHeight * 0.54f);
+    sf::Text ticTacToeText = createText(font, "Tic Tac Toe", buttonFontSize,
+                                        windowWidth / 2.f, windowHeight * 0.54f);
     
     sf::RectangleShape chorusLapilliButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.6f}, borderThickness);
+                                                          {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.6f},
+                                                          borderThickness);
     chorusLapilliButton.setFillColor(sf::Color(232, 211, 165));
-    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize, windowWidth / 2.f, windowHeight * 0.64f);
+    sf::Text chorusLapilliText = createText(font, "Chorus Lapilli", buttonFontSize,
+                                            windowWidth / 2.f, windowHeight * 0.64f);
     
     sf::RectangleShape quitButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.7f}, borderThickness);
+                                                 {windowWidth / 2 - buttonWidth / 2, windowHeight * 0.7f},
+                                                 borderThickness);
     quitButton.setFillColor(sf::Color::Red);
-    sf::Text quitText = createText(font, "Quit", buttonFontSize, windowWidth / 2.f, windowHeight * 0.74f);
+    sf::Text quitText = createText(font, "Quit", buttonFontSize,
+                                   windowWidth / 2.f, windowHeight * 0.74f);
     
     while (window.isOpen()) {
         // ---------------------------------
@@ -123,7 +122,8 @@ int main() {
             }
         }
         
-        window.clear(sf::Color(160, 130, 90)); // Tan colored background
+        // Light brown color background
+        window.clear(sf::Color(160, 130, 90));
         
         // -----------------------
         // Render Text and Buttons

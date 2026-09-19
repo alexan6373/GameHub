@@ -151,12 +151,9 @@ void FifteenPuzzle::runFifteenPuzzleGame() {
 }
 
 bool FifteenPuzzle::draw(sf::RenderWindow& window) {
-    // ---------------------
-    // Set Up Fifteen Puzzle
-    // ---------------------
-    setUpBoard();
-    gameOver = false;
-    
+    // ----------------
+    // Set Up Rendering
+    // ----------------
     const float windowWidth = window.getSize().x;
     const float windowHeight = window.getSize().y;
     
@@ -170,23 +167,30 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
     const float boardSize = windowWidth * 0.4f;
     const float cellSize = boardSize / 4.f;
     const float startX = windowWidth / 2.f - boardSize / 2.f;
-    const float startY = windowHeight / 2.f - boardSize / 2.f + windowHeight * 0.03f;
+    const float startY = windowHeight / 2.f - boardSize / 2.f + windowHeight * 0.06f;
     
     sf::Font font("assets/fonts/Roboto-Regular.ttf");
-    sf::Text title = createText(font, "Fifteen Puzzle", titleHeight, windowWidth / 2.f, titleHeight);
+    sf::Text title = createText(font, "Fifteen Puzzle", titleHeight, windowWidth / 2.f, windowHeight * 0.1f);
     
     sf::RectangleShape menuButton = createButton({buttonWidth, buttonHeight},
-                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.14f},
+                                                 {windowWidth / 2.f - buttonWidth / 2.f, windowHeight * 0.17f},
                                                  borderThickness);
-    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize, windowWidth / 2.f, windowHeight * 0.14f + buttonHeight / 2.f);
+    sf::Text menuText = createText(font, "Return to main menu", buttonFontSize,
+                                   windowWidth / 2.f, windowHeight * 0.17f + buttonHeight / 2.f);
     
-    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", buttonFontSize, windowWidth / 2.f, windowHeight * 0.88f);
-    
-    std::string move = "";
+    sf::Text infoText = createText(font, "Use WASD or arrow keys to make moves.", buttonFontSize,
+                                   windowWidth / 2.f, windowHeight * 0.9f);
 
+    // ---------------------
+    // Set Up Fifteen Puzzle
+    // ---------------------
+    setUpBoard();
+    gameOver = false;
+    std::string move = "";
+    
     // ---------------
     // Main Gamne Loop
-    //----------------
+    // ---------------
     while (window.isOpen()) {
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>())
@@ -242,6 +246,7 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
             }
         }
         
+        // Light tan color background
         window.clear(sf::Color(245, 230, 204));
         
         // -------------------
@@ -273,7 +278,6 @@ bool FifteenPuzzle::draw(sf::RenderWindow& window) {
                                                  : tile.setFillColor(sf::Color(201, 106, 74));
                     
                     window.draw(tile);
-                    
                 }
             }
         }
